@@ -1,0 +1,168 @@
+{% include 'administration/header_admin.html' %}
+{% load static %} 
+<!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        
+     
+
+
+        <div class="row mt">
+          <div class="col-md-12">
+            
+            <div class="content-panel">
+
+              <h4><i class="fa fa-angle-right"></i> Formation: <b>{{formt.formation_name}}</b></h4>
+              <hr>
+              <h5><i class="fa fa-angle-right" style="margin-left: 10px;"></i> chapitre: <b>{{chap.titre}}</b></h5>
+              {% if question %}
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> Liste des questionnaires</h4><hr><table class="table table-striped table-advance table-hover">
+                    
+                    
+                    <thead>
+                      <tr>
+                        <th><i class="fa fa-bullhorn"></i> Question</th>
+                        <th class="hidden-phone"><i class="fa fa-question-circle"></i> Réponses attendues</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in question %}
+                      <tr>
+                        <td>
+                          <a>{{item.question_text}}</a>
+                        </td>
+                        <td>{{item.answers}}</td>
+                        <td>
+                          <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                          <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /content-panel -->
+              </div>
+              {% else %}
+              <div class="alert alert-danger" style="margin-top: 20px; margin: left 10px;">
+                <b> Alerte!</b> Aucun quizz tourvée...
+              </div>
+              
+              {% endif %}
+              <!-- debut modal -->
+              <br>
+              <button class="btn btn-success btn-sm" style="margin-left: 10px;" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-plus"></i> Ajouter une question
+              </button>
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title" id="myModalLabel">Création d'une question</h4>
+                    </div>
+                    <div class="modal-body">
+                     
+
+                     <div class="form">
+                      <h4 class="mb"><i class="fa fa-angle-right"></i> Veuillez remplir tous les champs.</h4>
+                      <form class="form-horizontal style-form" method="post" action="{%url "create_quizz" %}" >
+                        {% csrf_token %}
+                        <input type="hidden" name="frmt_id" value="{{formt.formation_id}}">
+                        <input type="hidden" name="chap_id" value="{{chap.chap_id}}">
+                        <div class="form-group">
+                          <label class="col-sm-2 col-sm-2 control-label">Question</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="question_content" class="form-control" placeholder="Question">
+                          </div>
+                        </div>
+                        <h6 class="mb"><i class="fa fa-angle-right"></i> Reponses possibles.</h6>
+                        
+                        <div class="form-group">
+                          <label class="col-sm-2 col-sm-2 control-label">Reponse A</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="reponse_A" class="form-control" placeholder="Reponse A">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-2 col-sm-2 control-label">Reponse B</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="reponse_B" class="form-control" placeholder="Reponse B">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-2 col-sm-2 control-label">Reponse C</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="reponse_C" class="form-control" placeholder="Reponse C">
+                          </div>
+                        </div>
+                        <div class="white-panel pn">
+                          <div class="panel-heading">
+                            <div class="pull-left">
+                              <h5><i class="fa fa-tasks"></i> Réponses attendus</h5>
+                            </div>
+                            <br>
+                          </div>
+                          <div class="custom-check goleft mt">
+                            <table id="todo" class="table table-hover custom-check">
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <span class="check"><input type="checkbox" class="checked" name="reponses_attendues" value="A"></span>
+                                    <a >Réponse A</a>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <span class="check"><input type="checkbox" class="checked" name="reponses_attendues" value="B"></span>
+                                    <a >Réponse B</a>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <span class="check"><input type="checkbox" class="checked" name="reponses_attendues" value="C"></span>
+                                    <a >Réponse C</a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!-- /table-responsive -->
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                          <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                      </form>
+                    </div>
+
+
+
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- fin modal -->
+              
+              
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+{% include 'users/footer.html' %}

@@ -1,0 +1,244 @@
+
+{% include 'users/header.html' %}
+
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        
+
+        <div class="row mt">
+          <div class="col-md-12">
+            
+            <div class="content-panel">
+
+              <h4><i class="fa fa-angle-right"></i> 
+                Formation: <b>{{formation.formation_name}}</b>
+              </h4>
+              <hr>
+              {% if messages %}
+                {% for message in messages %}
+                    {% if message.level_tag == 'success' %}
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <strong>Demande enregistré!</strong> {{message}}
+                      </div>
+                    {% elif message.level_tag == 'danger' %}
+                    <div class="alert alert-danger">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <strong>Erreur!!!</strong> {{message}}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+              {% endif %}
+              <!-- content informations -->
+              <div class="row">
+                <div class="col-md-6">
+                 <!-- gauche -->
+                 <div class="col-md-12 mb">
+                  <div class="content-panel pn" style="background: url(/media/{{formation.formation_img}}) no-repeat center top;background-size: cover;">
+                  </div>
+                </div>
+                 <!-- fin gauche -->
+                </div>
+                <div class="col-md-6">
+                 <h4>Description:</h4>
+                 <p>{{formation.formation_descr}}</p>
+                </div>
+              </div>
+              <!-- fin gauche droite -->
+              <div class="row mt mb">
+                <div class="panel-body">
+                  <div class="tab-content">
+                    <div id="overview" class="tab-pane active">
+                      <div class="row">
+                        <div class="col-md-6">
+                          
+                          <div class="detailed mt">
+                            <h4>Chapitres de la formation</h4>
+                            <div class="recent-activity">
+                              {%for item in chap%}
+                              <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
+                              <div class="activity-panel">
+                                <h5>{{item.titre}}</h5>
+                                <p>{{item.description}}</p>
+                              </div>
+                              {% endfor %}
+                              <!-- <div class="activity-icon bg-theme02"><i class="fa fa-trophy"></i></div>
+                              <div class="activity-panel">
+                                <h5>5 HOURS AGO</h5>
+                                <p>Task Completed. Resolved issue with Disk Space.</p>
+                              </div> -->
+                              
+                            </div>
+                            <!-- /recent-activity -->
+                          </div>
+                          <!-- /detailed -->
+                        </div>
+                        <!-- /col-md-6 -->
+                        <div class="col-md-6 detailed" style="margin-top: 14px;">
+                          <h4>Autres informations</h4>
+                          <div class="row centered mt mb">
+                            <div class="col-sm-4">
+                              <h1><i class="fa fa-money"></i></h1>
+                              <h3>{{formation.formation_prix}} Ariary</h3>
+                            </div>
+                            <div class="col-sm-4">
+                              <h1><i class="fa fa-clock-o"></i></h1>
+                              <h3>{{formation.formation_duree}}</h3>
+                              <h6>Minutes</h6>
+                            </div>
+                            <div class="col-sm-4">
+                              <h1><i class="fa fa-shopping-cart"></i></h1>
+                              <h3>0</h3>
+                              <h6>Inscrit(e)s</h6>
+                            </div>
+                          </div>
+                          <!-- /row -->
+                          
+                          <!-- /row -->
+                          <h4></h4>
+                          {% if formation.formation_type == 'gratuit' %}
+                          <div class="alert alert-success"><b>Bonne nouvelle!</b> Cette formation est totalement gratuite.</div>
+                          <form action="{%url "details_course" %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="formation_id" value="{{formation.formation_id}}">
+                            <a href="{% url 'show_course' formation.formation_id %}" class="btn btn-info btn-xs"> Accedez à la formation <i class="fa fa-chevron-circle-right"></i></a>
+                          </form>
+                          {% endif %}
+
+                          {% if autorization %}
+                            {% for aut in autorization %}
+                              {% if aut.souscription_status == 'Validated' %}
+                              <div class="alert alert-success"><b>Bonne nouvelle!</b> Vous êtes inscrit(e) à cette formation.</div>
+                              <a href="{% url 'show_course' aut.formation_id.formation_id %}"  class="btn btn-info btn-xs"> Accedez à la formation  <i class="fa fa-chevron-circle-right"></i></a>
+                              {% else %}
+                              <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <strong>Votre demande d'accès à cette formation est en attente de validation.</strong>
+                              </div>
+                              {% endif %}
+                            {% endfor %}
+                          {% else %}
+                          {% if formation.formation_type != 'gratuit' %}
+                          Si vous voulez vous inscrire sur cette formation, merci de nous le faire savoir en appyuant sur le bouton "S'inscrire" ci-dessous. <br>
+                          <div class="btn-group" style="margin-top: 30px;">
+                            <button type="button" class="btn btn-theme" data-toggle="modal" data-target="#modal_inscription">
+                              <i class="fa fa-plus"></i> S'inscrire
+                            </button>
+                            {% endif %}
+
+                              <!-- modal inscription -->
+                              <form action="{% url 'send_subscription_request'%}" method="post">
+                                {% csrf_token %}
+                              <div>
+                                <div class="modal fade" id="modal_inscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h3 class="modal-title" id="myModalLabel">Confirmation</h3>
+                                      </div>
+                                      <div class="modal-body">
+                                        <b>Avertissement!!! </b>Pour envoyer votre demande d'inscription à cette formation, veuillez envoyer le frais de la formation <b>sur l'un des numéros</b> suivants:
+                                        <ul>
+                                          <li><b>Mvola:</b>+ 261 34 12 345 67  <b>(Next Food Africa)</b></li>
+                                          <li><b>Airtel Money:</b>+ 261 33 12 345 67 <b>(Next Food Africa)</b></li>
+                                          <li><b>Orange Money:</b>+ 261 32 12 345 67 <b>(Next Food Africa)</b></li>
+                                        </ul> 
+                                        <ul>
+                                          <li><b>Motif de la transaction:</b> *votre nom*</li>
+                                         </ul>
+                                        <p>Puis merci de remplir les informations suivants:</p>
+                                        <br>
+                                       
+                                        <table>
+                                            <tr>
+                                              <td class="col-sm-3 col-sm-3 control-label">
+                                                <label>Paiement via</label>
+                                              </td>
+                                              <td>
+                                                <select name="operator" id="" class="form-control">
+                                                  <option value="mvola">Mvola</option>
+                                                  <option value="orange_money">Orange Money</option>
+                                                  <option value="airtel_money">Airtel Money</option>
+                                                </select>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="col-sm-3 col-sm-3 control-label">
+                                                <label>Réference transaction</label>
+                                              </td>
+                                              <td>
+                                                <input type="text" name="ref_transact_1" class="form-control" placeholder="Réference transaction" required>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="col-sm-3 col-sm-3 control-label">
+                                                <label>confirmer</label>
+                                              </td>
+                                              <td>
+                                                <input type="text" name="ref_transact_2" class="form-control" placeholder="Réference transaction" required>
+                                              </td>
+                                            </tr>
+                                           
+                                        </table>
+                                        <br>
+                                        <br>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <div style="display: flex;margin-left:70%">
+                                          <div>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                          </div>
+                                          <div style="margin-left: 10px;">
+                                             
+                                                <input type="hidden" name="formation_id" value="{{formation.formation_id}}">
+                                                <input type="hidden" name="matricule"  value="{{user.matricule}}">
+                                                <button type="submit" class="btn btn-primary">Valider</button>
+                                           
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                              <!-- fin modal inscription -->
+                          </div>
+                          {% endif %}
+                          <!-- /row -->
+                        </div>
+                        <!-- /col-md-6 -->
+                      </div>
+                      <!-- /OVERVIEW -->
+                    </div>
+                    <!-- /tab-pane -->
+                
+                    <!-- /tab-pane -->
+                    
+                    <!-- /tab-pane -->
+                  </div>
+                  <!-- /tab-content -->
+                </div>
+              </div>
+              <!-- end content informations -->
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+    {% include 'users/footer.html' %}

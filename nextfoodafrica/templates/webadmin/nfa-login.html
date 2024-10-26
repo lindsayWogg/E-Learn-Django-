@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>Connexion</title>
+
+  <!-- Favicons -->
+  <link href={% static "/dashio/img/favicon.png" %} rel="icon">
+  <link href={% static "/dashio/img/apple-touch-icon.png" %} rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href={% static "/dashio/lib/bootstrap/css/bootstrap.min.css" %}  rel="stylesheet">
+  <!--external css-->
+  <link href={% static "/dashio/lib/font-awesome/css/font-awesome.css" %} rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href={% static "/dashio/css/style.css" %}  rel="stylesheet">
+  <link href={% static "/dashio/css/style-responsive.css" %}  rel="stylesheet">
+  
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+  <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+  <div id="login-page">
+    <div class="container">
+    
+      {% block content %}
+      <form class="form-login" action="{%url "nfalogin" %}" method="POST">
+        {% csrf_token %}
+        <h2 class="form-login-heading" >Connectez vous</h2>
+        {% if messages %}
+        {% for message in messages %}
+          
+          <div class="alert alert-warning alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong> {{message}}</strong>
+          </div>
+        {% endfor %}
+
+      {% endif %}
+        <div class="login-wrap">
+          <input type="text" class="form-control" name="username" placeholder="Nom d'utilisateur" autofocus>
+          <br>
+          <input type="password" class="form-control" name="password" placeholder="Mot de passe">
+          <label class="checkbox">
+            <input type="checkbox" value="remember-me" style="margin-left: -15px;">Se souvenir de moi
+            <span class="pull-right">
+            <a data-toggle="modal" href="login.html#myModal"> Mot de passe oublié?</a>
+            </span>
+            </label>
+          <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-lock"></i> Connexion</button>
+          <hr>
+          
+          <div class="registration">
+            Pas encore inscit(e)?<br/>
+            <a class="" href="{%url "register" %}">
+              Inscrivez-vous
+              </a>
+              <br>
+              <a class="" href="{%url "nfablog" %}">
+                Revenir au Blog
+                </a>  
+          </div>
+        </div>
+        <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Vous avez oublié votre mot de passe ?</h4>
+              </div>
+              <div class="modal-body">
+                <p>Entrez votre adresse e-mail pour recevoir un nouveau mot de passe.</p>
+                <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+              </div>
+              <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Annuler</button>
+                <button class="btn btn-theme" type="button">Envoyer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- modal -->
+      </form>
+      {% endblock%}
+    </div>
+  </div>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src={% static "/dashio/lib/jquery/jquery.min.js" %}></script>
+  <script src={% static "/dashio/lib/bootstrap/js/bootstrap.min.js" %}></script>
+   <style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url({% static "blogdesign/assets/img/header-bg.png" %});
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+    }
+    
+
+    .content {
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
+</style>
+</body>
+
+</html>

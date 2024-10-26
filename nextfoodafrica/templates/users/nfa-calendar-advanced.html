@@ -1,0 +1,316 @@
+{% include 'users/header.html' %}
+{% load static %}
+<!--sidebar end-->
+<!-- **********************************************************************************************************************************************************
+    MAIN CONTENT
+    *********************************************************************************************************************************************************** -->
+<!--main content start-->
+
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <br>
+
+        <div class="showback">
+            <h3><i class="fa fa-calendar"></i> Calendrier</h3>
+            <hr>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lun</th>
+                        <th>Mar</th>
+                        <th>Mer</th>
+                        <th>Jeu</th>
+                        <th>Ven</th>
+                        <th>Sam</th>
+                        <th>Dim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in month_days %}
+                    <tr>
+                        {% for day in week %}
+                        <td>
+                            {% if day != 0 %}
+                            <div>{{ day }}</div>
+                            {% for atelier_item in ateliers_with_subscription_status %}
+                                {% if atelier_item.atelier.date_debut.day == day %}
+                                <a data-toggle="modal" class="dropdown-toggle" data-target="#Modal_{{ atelier_item.atelier.atelier_id }}" aria-expanded="true">
+                                    <span class="badge bg-info"><i class="fa fa-bookmark"></i> {{ atelier_item.atelier.titre }}</span>
+                                </a>
+                                {% endif %}
+                            {% endfor %}
+
+                             <!--  -->
+                        {% for formation_item in formations_with_subscription_status %}
+                            {% if formation_item.formation.created_at.day == day %}
+                            <a data-toggle="modal" class="dropdown-toggle" data-target="#ModalFormation_{{ formation_item.formation.formation_id }}" aria-expanded="true">
+                                <span class="badge bg-success"><i class="fa fa-graduation-cap"></i> {{ formation_item.formation.formation_name }}</span>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                        <!--  -->
+
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+
+                       
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="calendar-navigation">
+                <a href="?month={{ previous_month }}&year={{ previous_year }}" class="nav-button"><button type="button" class="btn btn-theme"><i class="fa fa-backward"></i> Précédent</button></a>
+                
+                <span class="label label-info">{{ month_name }} {{ year }}</span>
+                <a href="?month={{ next_month }}&year={{ next_year }}" class="nav-button"><button type="button" class="btn btn-theme">Suivant <i class="fa fa-forward"></i></button></a>
+            </div>
+        </div>
+        <!-- debut modal formations -->
+         <!-- Modals pour les formations -->
+         {% for formation_item in formations_with_subscription_status %}
+         <div class="modal fade" id="ModalFormation_{{ formation_item.formation.formation_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                         <h4 class="modal-title" id="myModalLabel">Formation {{ formation_item.formation.formation_name }}</h4>
+                     </div>
+                     <div class="modal-body">
+                         <div style="display: block;">
+                             <h2 style="margin: 0 0 10px;"><b>{{ formation_item.formation.formation_name }}</b></h2>
+                             <div class="modal_formation-content" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+                                 <div class="modal_formation-left" style="width: 50%;">
+                                     <img src="/media/{{ formation_item.formation.formation_img }}" alt="Image de la formation" style="width: 100%; height: auto;">
+                                 </div>
+                                 <div class="modal_formation-right" style="flex: 1; padding: 20px; display: flex; flex-direction: column;">
+                                     <p><b>Formation:</b> {{ formation_item.formation.formation_name }}</p>
+                                     <p><b>Type:</b> {{ formation_item.formation.formation_type }}</p>
+                                     <p><b>Prix:</b> {{ formation_item.formation.formation_prix }}</p>
+                                     <p><b>Durée:</b> {{ formation_item.formation.formation_duree }}</p>
+                                 </div>
+                             </div>
+                             <div class="modal_formation-description">
+                                 <h3>Présentation:</h3>
+                                 <p>{{ formation_item.formation.formation_descr }}</p>
+                             </div>
+                         </div>
+                     </div>
+ 
+                     <style>
+                         .modal_formation-right p {
+                             margin: 5px 0;
+                         }
+ 
+                         .modal_formation-description {
+                             padding: 20px;
+                             background-color: #f9f9f9;
+                         }
+                     </style>
+ 
+                     <div class="modal-footer">
+                         {% if formation_item.is_subscribed %}
+                         <div class="alert alert-info">
+                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                             <strong>Vous êtes déjà inscrit(e) à cette formation.</strong>
+                         </div>
+                         {% else %}
+                         <button class="btn btn-success btn-sm" style="margin-left: 10px;" data-toggle="modal" data-target="#inscriptionFormation_{{ formation_item.formation.formation_id }}">
+                             <i class="fa fa-plus"></i> S'inscrire
+                         </button>
+                         {% endif %}
+                         
+                         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                     </div>
+                     
+                     <div class="modal fade" id="inscriptionFormation_{{ formation_item.formation.formation_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                         <div class="modal-dialog">
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                     <h4 class="modal-title" id="myModalLabel">Avertissement</h4>
+                                 </div>
+                                 <div class="modal-body">
+                                     <p>Voulez-vous vraiment vous inscrire à cette formation ?<br>L'administrateur sera notifié de votre inscription.</p>
+                                 </div>
+                                 <form action="" method="post">
+                                     {% csrf_token %}
+                                     <input type="hidden" name="formation_id" value="{{ formation_item.formation.formation_id }}">
+                                     <div class="modal-footer">
+                                         <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                         <button type="submit" class="btn btn-primary">Oui</button>
+                                     </div>
+                                 </form>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         {% endfor %}
+        <!-- fin modal formations -->
+        {% for atelier_item in ateliers_with_subscription_status %}
+        <div class="modal fade" id="Modal_{{ atelier_item.atelier.atelier_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">Atelier {{ atelier_item.atelier.titre }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: block;">
+                            <h2 style="margin: 0 0 10px;"><b>{{ atelier_item.atelier.titre }}</b></h2>
+                            <div class="modal_atelier-content" style="flex: 1; display: flex; justify-content: center; align-items: center;">
+                                <div class="modal_atelier-left" style="width: 50%;">
+                                    <img src="/media/{{ atelier_item.atelier.img }}" alt="Image de l'atelier" style="width: 100%; height: auto;">
+                                </div>
+                                <div class="modal_atelier-right" style="flex: 1; padding: 20px; display: flex; flex-direction: column;">
+                                    <p><b>Date de création:</b> {{ atelier_item.atelier.date_creation }}</p>
+                                    <p><b>Date de début:</b> {{ atelier_item.atelier.date_debut }}</p>
+                                    <p><b>Lieu:</b> {{ atelier_item.atelier.lieu }}</p>
+                                    <p><b>Date de fin:</b> {{ atelier_item.atelier.date_fin }}</p>
+                                    <p><b>Heure de début:</b> {{ atelier_item.atelier.heure_debut }}</p>
+                                    <p><b>Heure de fin:</b> {{ atelier_item.atelier.heure_fin }}</p>
+                                    <p><b>Type:</b> {{ atelier_item.atelier.type }}</p>
+                                    <p><b>Prix:</b> {{ atelier_item.atelier.price }}</p>
+                                    <p><b>Nombre de places:</b> {{ atelier_item.atelier.nb_place }}</p>
+                                </div>
+                            </div>
+                            <div class="modal_atelier-description">
+                                <h3>Description:</h3>
+                                <p>{{ atelier_item.atelier.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        .modal_atelier-right p {
+                            margin: 5px 0;
+                        }
+
+                        .modal_atelier-description {
+                            padding: 20px;
+                            background-color: #f9f9f9;
+                        }
+                    </style>    
+
+                    <div class="modal-footer">
+                        {% if atelier_item.is_subscribed %}
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <strong>Vous êtes déjà inscrit(e) à cet atelier.</strong>
+                        </div>
+                        {% else %}
+                        <button class="btn btn-success btn-sm" style="margin-left: 10px;" data-toggle="modal" data-target="#inscription">
+                            <i class="fa fa-plus"></i> S'inscrire
+                        </button>
+                        {% endif %}
+                        
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    </div>
+                    
+                    <div class="modal fade" id="inscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel">Avertissement</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Voulez-vous vraiment vous inscrire à cet atelier ?<br>L'administrateur sera notifié de votre inscription.</p>
+                                </div>
+                                <form action="{% url 'inscription_atelier' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="atelier_id" value="{{ atelier_item.atelier.atelier_id }}">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                                        <button type="submit" class="btn btn-primary">Oui</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <style>
+            /* Styles généraux de la table */
+            .calendar-container {
+                height: 80vh; /* Ajustez cette valeur selon l'espace disponible souhaité */
+                overflow: hidden; /* Masque les débordements */
+                display: flex;
+                flex-direction: column;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                font-size: 16px;
+                text-align: center;
+                height: 100%; /* Assure que la table occupe toute la hauteur du conteneur */
+                overflow: auto; /* Permet le défilement si le contenu dépasse */
+            }
+
+            /* Styles des en-têtes de la table */
+            th {
+                background-color: #f4f4f4;
+                color: #333;
+                padding: 10px;
+                border: 1px solid #ddd;
+            }
+
+            /* Styles des cellules de la table */
+            td {
+                padding: 10px;
+                border: 1px solid #ddd;
+                vertical-align: top;
+                position: relative;
+                width: 14%;
+            }
+
+            /* Styles pour les jours du mois */
+            td div {
+                font-size: 13px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            /* Styles pour les ateliers */
+            .atelier {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                padding: 5px;
+                margin-top: 5px;
+                border-radius: 4px;
+            }
+
+            /* Styles pour les jours de la semaine */
+            thead th {
+                background-color: #333;
+                color: #fff;
+                font-weight: bold;
+            }
+
+            .calendar-navigation {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .nav-button {
+                padding: 10px 20px;
+                margin: 0 10px;
+            }
+        </style>
+        
+    </section>
+    <!-- /wrapper -->
+</section>
+<!-- /MAIN CONTENT -->
+
+<!--main content end-->
+{% include 'users/footer.html' %}

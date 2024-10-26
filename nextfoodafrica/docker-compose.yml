@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: container_postgres
+    environment:
+      POSTGRES_USER: tumbu
+      POSTGRES_PASSWORD: pstgrs_new_pwd
+      POSTGRES_DB: dwh
+    ports:
+      - "5432:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    container_name: container_sqlserver
+    environment:
+      SA_PASSWORD: sqlserver_new_pwd
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
+volumes:
+  postgres_data:

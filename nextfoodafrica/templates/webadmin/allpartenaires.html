@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% block title %}All Blogs
+{% endblock title %}
+{% load static %}
+{% block body %}
+
+
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card" style="width: 200%;">
+                <div class="card-body">
+
+                    <h4 class="header-title">Ils nous soutiennent:</h4>
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="striped-rows-preview">
+                            <div class="table-responsive-sm">
+                                <table class="table table-striped table-centered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Organisme</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in data %}
+                                        <tr>
+                                            <td class="table-user">
+                                                <img src="/static/{{ item.logo }}" style="width: 200px; height: 200px;">
+                                            </td>
+                                            <td class="table-action">
+                                                <h5 style="margin-top: 35px;">
+                                                    {{ item.Description }}
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div> <!-- end table-responsive-->                     
+                        </div> <!-- end preview-->
+                    
+                    </div> <!-- end tab-content-->
+
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+
+{% endblock body %}

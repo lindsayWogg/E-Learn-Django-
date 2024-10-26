@@ -1,0 +1,211 @@
+
+
+{% include 'users/header.html' %}
+{% load static %}
+
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <div class="row">
+         
+          <!-- /col-lg-12 -->
+          <div class="col-lg-12 ">
+            <div class="row content-panel">
+              <div class="panel-heading">
+                <ul class="nav nav-tabs nav-justified">
+                  <li class="active">
+                    <a data-toggle="tab" href="#cours" aria-expanded="true">Cours</a>
+                  </li>
+                  <!-- <li class="">
+                    <a data-toggle="tab" href="#exemple" class="contact-map" aria-expanded="false">Exemple</a>
+                  </li>
+                  <li class="">
+                    <a data-toggle="tab" href="#quizz" aria-expanded="false">Quizz</a>
+                  </li> -->
+                </ul>
+              </div>
+              <!-- /panel-heading -->
+              <div class="panel-body">
+                <div class="tab-content">
+                  
+<!----------------------------------------------------------------->
+                  <!-- DEBUT COURS -->
+                  {% if messages %}
+                  {% for message in messages %}
+                      {% if message.level_tag == 'success' %}
+                      <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                          <strong>{{message}}</strong> 
+                        </div>
+                      {% elif message.level_tag == 'danger' %}
+                      <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <strong>{{message}}</strong>
+                      </div>
+                      {% endif %}
+                  {% endfor %}
+                  {% endif %}
+                  <div id="cours" class="tab-pane active">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="showback" style="display: block;">
+                          <div style="display: flex;">
+                            <div class="col-md-12">
+                              <h3>{{chap.chap_id}} <i class="fa fa-angle-right"></i> {{chap.titre}}</h3>
+                              <hr>
+                              <!-- <b>Durée:</b>
+                              <ul>
+                                <li>{{chap.duree_min}} minutes</li>
+                              </ul> -->
+                                <section class="task-panel tasks-widget">
+                                  <!-- <div class="panel-heading">
+                                    <div class="pull-left">
+                                      <h5><i class="fa fa-tasks"></i> Les objectifs pour ce chapitre:</h5>
+                                    </div>
+                                    <br>
+                                  </div> -->
+                                  <div class="panel-body">
+                                    <div class="task-content">
+                                      <ul id="sortable" class="task-list ui-sortable">
+                                        {% with i=0 %}
+                                        {% for obj in objectifs %}
+                                        <li class="list-primary">
+                                          <div class="task-title">
+                                            <span class="task-title-sp">{{ forloop.counter }} | <b>{{ obj.objctf_content }}</b> (<b>{{obj.duree_min}} minutes</b>)</span>
+                                          </div>
+                                        </li>
+                                        {% endfor %}
+                                    {% endwith %}
+                                      </ul>
+                                    </div>
+                                  
+                                  </div>
+                                </section>
+                            </div>
+                           
+                          </div><br>
+                          <div><br>
+                            <p>
+                              Plongez dans le cours : 
+                            </p>
+                            <br>
+                            <br>
+                            <br>
+                            <video width="100%" height="500" controls>
+                              <!-- <source src={% static "/cours/cours1.mp4" %} type="video/mp4"> -->
+                              <source src="/media/{{chap.cours_content}}" type="video/mp4">
+                              Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+                            </video>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- FIN COURS -->
+<!----------------------------------------------------------------->
+                  <!-- DEBUT EXEMPLE -->
+
+                  <div id="exemple" class="tab-pane">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <h3>Chapitre {{chap.chap_id}} <i class="fa fa-angle-right"></i>Exemple sur {{chap.titre}}</h3>
+                        <hr>
+                        <video width="100%" height="500" controls>
+                          {% load static %}
+                          <source src="/media/{{chap.exemple_content}}" type="video/mp4">
+                          Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+                        </video>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- FIN EXEMPLE -->
+<!----------------------------------------------------------------->
+
+                  <div id="quizz" class="tab-pane">
+                    <form  action="{%url "validate_quizz" %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="formation_id" value="{{chap.frmt_id}}">
+                      <input type="hidden" name="chap_id" value="{{chap.chap_id}}">
+                      {% for qa in quizz_with_answers %}
+                      <div class="row mt">
+                        <div class="col-md-12">
+                          <div class="white-panel pn">
+                            <div class="panel-heading">
+                              <div class="pull-left">
+                                <h4><span class="badge bg-info">{{ qa.id }}</span> {{ qa.question.question_text }}</h4>
+                              </div>
+                              <br>
+                            </div>
+                            <div class="custom-check goleft mt">
+                              <table id="todo" class="table table-hover custom-check">
+                                <tbody>
+                                  {% for answer in qa.answers %}
+                                  <tr>
+                                    <td>
+                                      <span class="check"><input type="checkbox" class="checked" name="{{ chap.frmt_id }}_{{ chap.chap_id }}_{{ qa.question.question_id }}" value="{{ answer.answer_alias }}"></span>
+                                    <b>Réponse {{ answer.answer_alias }}:</b> <a>   {{ answer.answer_text }}</a>
+                                    </td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                              
+                            </div>
+                            <!-- /table-responsive -->
+                          </div>
+                          <!--/ White-panel -->
+                        </div>
+                        <!-- /col-md-12 -->
+                      </div>
+                      {% endfor %}
+                      <br>
+                      <div class=" add-task-row">
+                        <a class="btn btn-success btn-sm pull-left"  data-toggle="modal" data-target="#Avertissement"><i class="fa fa-upload"></i> Envoyer les réponses</a>
+             
+                          <div class="modal fade" id="Avertissement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                  <h4 class="modal-title" id="myModalLabel">Avertissement</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <h4>Etes-vous sûr(e) de vouloir envoyer vos réponses sur ce quizz?</h4>
+                                  Vos réponses sur ce quizz seront envoyées à l'administrateur. <br><br>
+                                  <b style="margin-top: 10px;">NB:Vous devez avoir une note plus de 50% pour pouvoir suivre le chapitre suivant.</b>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                  <button type="submit" class="btn btn-primary">Oui envoyer</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </form>
+                    </div>
+
+
+
+                  </div>
+<!----------------------------------------------------------------->
+
+                  <!-- /tab-pane -->
+                </div>
+                <!-- /tab-content -->
+              </div>
+              <!-- /panel-body -->
+            </div>
+            <!-- /col-lg-12 -->
+          </div>
+          <!-- /row -->
+        </div>
+        <!-- /container -->
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!--main content end-->
+    {% include 'users/footer.html' %}

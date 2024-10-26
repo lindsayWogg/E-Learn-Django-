@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>Dashio - Bootstrap Admin Template</title>
+
+    <!-- Favicons -->
+    <link href={% static "/dashio/img/favicon.png" %} rel="icon">
+    <link href={% static "/dashio/img/apple-touch-icon.png" %} rel="apple-touch-icon">
+  
+    <!-- Bootstrap core CSS -->
+    <link href={% static "/dashio/lib/bootstrap/css/bootstrap.min.css" %}  rel="stylesheet">
+    <!--external css-->
+    <link href={% static "/dashio/lib/font-awesome/css/font-awesome.css" %} rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href={% static "/dashio/css/style.css" %}  rel="stylesheet">
+    <link href={% static "/dashio/css/style-responsive.css" %}  rel="stylesheet">
+  
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+  {% if form.errors %}
+  <p>there was an error</p>
+  {% endif %}
+  {% block content %}
+  <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+  <div id="login-page">
+    <div class="container">
+      <div class="row mt">
+        <div class="col-lg-12">
+          <div class="form-signup">
+            <form class="form-horizontal tasi-form" action="{% url 'register'%}" method="POST">
+              {% csrf_token %}
+              <!-- {{ form.as_p }} -->
+              <h2 class="form-signup_heading">Remplissez le formulaire</h2>
+              <div class="login-wrap">
+                {{ form.last_name }}
+                <!-- <input type="text" class="form-control" placeholder="Nom" name="first_name" autofocus> -->
+                <br>
+                {{ form.first_name }}
+                <!-- <input type="text" class="form-control" placeholder="Prénom" name="last_name"> -->
+                <br>
+                <table style="width: 100%;">
+                  <tr style="width: 100%;">
+                    <td style="width: 25%;">Sexe</td>
+                    <td style="width: 75%;">
+                      <!-- <select name="sex" id="" class="form-control">
+                        <option value="H">Homme</option>
+                        <option value="F">Femme</option>
+                      </select> -->
+                      {{ form.sex }}
+                    </td>
+                  </tr>
+                </table>
+                
+                <br>
+                <!-- <input type="email" class="form-control" placeholder="Email" name="email"> -->
+                {{ form.email}}
+                <br>
+                <!-- <input type="text" class="form-control" placeholder="Adresse" name="adress"> -->
+                {{ form.adress}}
+                <br>
+                <!-- <input type="text" class="form-control" placeholder="Numéro de téléphone" name="phone"> -->
+                {{ form.phone}}
+                <br>
+                <!-- <input type="text" class="form-control" placeholder="Nom d'utilisateur" name="username"> -->
+                {{ form.username}}
+                <small class="form-text text-muted">{{ form.username.help_text }}</small>
+                <br>
+                <br>
+                <!-- <input type="password" class="form-control" placeholder="Mot de passe" name="password1"> -->
+                {{ form.password1}}
+                <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+                <br>
+                <br>
+                <!-- <input type="password" class="form-control" placeholder="Veuillez confirmer votre mot de passe" name="password2"> -->
+                {{ form.password2}}
+                <br>
+                <input type="hidden" name="formation_id" value="FREE FORMATION">
+                <button class="btn btn-theme btn-block"  type="submit"><i class="fa fa-lock"></i> S'inscrire</button>
+                <hr>
+                <div class="registration">
+                  Déjà inscit(e)?<br/>
+                  <a class="" href="{%url "nfalogin" %}">
+                    Connectez-vous
+                    </a>
+                    <br>
+                    <a class="" href="{%url "nfablog" %}">
+                      Revenir au Blog
+                      </a>  
+                </div>
+               
+              </div>
+            </form>
+            {% endblock %}
+          </div>
+          
+          <!-- /form-panel -->
+        </div>
+        <!-- /col-lg-12 -->
+      </div>
+    </div>
+  </div>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src={% static "/dashio/lib/jquery/jquery.min.js" %}></script>
+  <script src={% static "/dashio/lib/bootstrap/js/bootstrap.min.js" %}></script>
+   <style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url({% static "dashio/img/login-bg.jpg" %});
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+    }
+    
+
+    .content {
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
+</style>
+</body>
+
+</html>

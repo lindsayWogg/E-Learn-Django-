@@ -1,0 +1,111 @@
+{% include 'users/header.html' %}
+{% load static %}
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+   <style>
+    /* Styles généraux de la table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Styles des en-têtes de la table */
+th {
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Styles des cellules de la table */
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  vertical-align: top;
+  position: relative;
+}
+
+/* Styles pour les jours du mois */
+td div {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Styles pour les ateliers */
+.atelier {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 4px;
+}
+
+/* Styles pour les jours de la semaine */
+thead th {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+   </style>
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            
+
+            <!-- debut calendar -->
+            <h1>Calendrier des Ateliers - {{ month_name }} {{ year }}</h1>
+
+            <table>
+              <thead>
+                  <tr>
+                      <th>Lun</th>
+                      <th>Mar</th>
+                      <th>Mer</th>
+                      <th>Jeu</th>
+                      <th>Ven</th>
+                      <th>Sam</th>
+                      <th>Dim</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for week in month_days %}
+                  <tr>
+                      {% for day in week %}
+                      <td>
+                          {% if day != 0 %}
+                              <div>{{ day }}</div>
+                              {% for atelier in ateliers %}
+                                  {% if atelier.date_debut.day == day %}
+                                      <!-- <div class="atelier">
+                                          <strong>{{ atelier.titre }}</strong><br>
+                                          {{ atelier.heure_debut }} - {{ atelier.lieu }}
+                                      </div> -->
+                                      x
+                                  {% endif %}
+                              {% endfor %}
+                          {% endif %}
+                      </td>
+                      {% endfor %}
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          
+          
+            <!-- fin calendar -->
+            
+            
+          </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+    {% include 'users/footer.html' %}

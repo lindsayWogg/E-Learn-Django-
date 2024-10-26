@@ -1,0 +1,229 @@
+{% include 'administration/header_admin.html' %}
+{% load static %} 
+<!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        
+     
+
+
+        <div class="row mt">
+          <div class="col-md-12">
+            
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> Atelier: <b>{{atelier.titre}}</b></h4>
+              <hr>
+              
+              <table class="table table-striped table-advance table-hover">
+                      <div style="display: block;">
+                        <div class="col-md-6">
+                          <div class="col-md-10 mb">
+                            <div class="pn">
+                              <!-- <div class="pn" id="blog-bg" style="background: url({{formt.formation_img}}) no-repeat center top;background-size: cover;"></div> -->
+                            <img src="../media/{{atelier.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <h3 style="background: linear-gradient(to right, #36ecde, #000);font-colo:red;">Détails</h3>
+                          <b class="badge">Description du cours:</b>  {{atelier.description}}<br><br>
+                          {% if atelier.date_debut == atelier.date_fin%}
+                          <b class="badge">Date prévu:</b>  {{atelier.date_debut}}<br><br>
+                          {% else %}
+                          <b class="badge">Date debut:</b>  {{atelier.date_debut}}<br><br>
+                          <b class="badge">Date fin:</b>  {{atelier.date_fin}}<br><br>
+                          {% endif %}
+                          
+                          <b class="badge">à:</b> 
+                          {% if atelier.heure_debut == atelier.heure_fin%}
+                          {{atelier.heure_debut}} 
+                          {% else %}
+                          {{atelier.heure_debut}} jusqu'à {{atelier.heure_fin}}<br><br>
+                          {% endif %}
+                          <b class="badge">Lieu:</b>  {{atelier.lieu}}<br><br>
+                          <p contenteditable="true" class="mt">
+                          </p>
+                        </div>
+                      </div>
+                      
+                    
+                
+              </table>
+
+              <!-- debut modal -->
+              
+            
+
+              
+              <!-- fin modal -->
+              {% if not list_souscription %}
+              <div class="alert alert-danger" style="margin-top: 20px; margin: left 10px;">
+                <b> Alerte!</b> Aucune souscription tourvée...
+              </div>
+              
+              {% endif %}
+              {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-success">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <strong><i class="fa fa-warning"></i>  {{message}}!!!</strong> 
+                    </div>
+              {% endfor %}
+
+            {% endif %}
+              <!--debut tableau  -->
+              
+              <h4><i class="fa fa-list-ul"></i> Liste des apprenants inscrit(s)</b></h4>
+              <div class="add-task-row" style="margin-left: 5px;">
+                <form id="pdfForm" method="post" action="{% url 'exporter_pdf_post' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="atelier_id" value="{{ atelier.atelier_id }}">
+                  <button type="button"  class="btn btn-success btn-sm pull-left" onclick="downloadPDF()">  <i class="fa fa-print"></i> Exporter en PDF</button>
+              </form>
+              </div>
+              <!-- test -->
+            
+            <script>
+            function downloadPDF() {
+                var form = document.getElementById('pdfForm');
+                form.submit();
+            }
+            </script>
+              <!-- fin test -->
+              <br>
+                <table class="table table-striped table-advance table-hover" style="margin-top: 20px;">
+                <tbody>
+                  {% for item in list_souscription %}
+                  <tr>
+                    <td><i class="fa fa-bookmark"></i> <b> {{item.matricule.first_name}} {{item.matricule.last_name}}</b>  :  <span class="badge bg-info" style="margin-left: 5%;">inscrit(e) le {{item.date_inscription}}</span></td>
+                    <td>
+                      <div class="pull-right" style="display: flex;margin-right:90%">
+                        <div style="margin-left: 5px;">
+                          <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#user_{{item.matricule.matricule}}"><i class=" fa fa-eye"></i></button>
+                        </div>
+                        <div style="margin-left: 5px;">
+                          <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete_{{item.matricule.matricule}}" title="Enlever de la liste"><i class="fa fa-trash-o "></i></button>
+                        </div>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                 {% endfor %}
+                 {% for item in list_souscription %}
+                 <div class="modal fade" id="delete_{{item.matricule.matricule}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-warning"></i> Avertissement </h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Voulez vous vraiment retirer <b>{{item.matricule.first_name}} {{item.matricule.last_name}}</b> de la liste des utilisateurs inscrits ur l'atelier <b>{{item.atelier_id.titre}}</b>?</p>
+                        <div class="modal-footer">
+                          <form id="pdfForm" method="post" action="{% url 'del_subs_atelier' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="souscription_id" value="{{item.souscription_id}}">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                          <button type="submit" class="btn btn-primary">Oui</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                 {% endfor %}
+              </form>
+                </tbody>
+                {% for item in list_souscription %}
+                <div class="modal fade" id="user_{{item.matricule.matricule}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-user-circle"></i> A propos de {{item.matricule.first_name}} {{item.matricule.last_name}}</b> </h4>
+                      </div>
+                      <div class="modal-body">
+                        <div style="display: flex;">
+                          <div class="profile-pic">
+                            <p><img src="/media/{{item.matricule.profile_pic}}" class="img-circle"></p>
+                          </div>
+                          <div class="col-md-8 profile-text">
+                            <h3>{{ item.matricule.first_name }} {{ item.matricule.last_name }}</h3>
+                            <h4> {{ item.matricule.user_type }}</h4>
+                            <!--  -->
+                            
+                            
+                            <!--  -->
+                            <ul>
+                              <li>
+                                <b>Nom:</b>   {{ item.matricule.first_name }}
+                              </li>
+                              <br>
+                              <li>
+                                <b>Prénom(s):</b>   {{ item.matricule.last_name }}
+                              </li>
+                              <br>
+
+                              <li>
+                                <b>Adresse(s):</b>   {{ item.matricule.adress }}
+                              </li>
+                              <br>
+
+                              <li>
+                                <b>Téléphone:</b>  {{ item.matricule.phone }}
+                              </li>
+                              <br>
+
+                              <li>
+                                <b>Email:</b>  {{ item.matricule.email }}
+                              </li>
+                              <br>
+
+                              <li>
+                                <b>Matricule:</b>  {{ item.matricule.matricule }}
+                              </li>
+                              <br>
+
+                              <li>
+                                <b>Membre depuis:</b>  {{ item.matricule.date_souscription }}
+                              </li>
+                              <br>
+
+                              <li>
+                                <b>Mes idées:</b>  {{ item.matricule.activitys }}
+                              </li>
+                              <br>
+
+                            </ul>
+                            
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              </table>
+              
+                 <!-- fin tableau -->
+             
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+{% include 'users/footer.html' %}

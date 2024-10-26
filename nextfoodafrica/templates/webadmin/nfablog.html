@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Blog - Next Food Africa</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href={% static "blogdesign/assets/favicon.ico" %} />
+        <!-- Font Awesome icons (free version)-->
+        <!-- Google fonts-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href={% static "/blogdesign/css/styles.css" %} rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="#page-top"><img src={% static "/blogdesign/assets/img/8.png"%} style="width: 100%;height: 70px;margin-top: -20px;" /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#formations">Formations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#bientot">Bientôt</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#partenaires">Partenaires</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{%url "nfalogin" %}">Se connecter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <style>
+            @font-face {
+            font-family: 'Anton'; /* Le nom que vous donnerez à votre police */
+            src: url({% static '/blogdesign/police/Anton-Regular.ttf' %} ) format('truetype'); /* Spécifiez le chemin vers votre fichier .ttf */
+            }
+            @font-face {
+            font-family: 'Montserrat'; /* Le nom que vous donnerez à votre police */
+            src: url({% static '/blogdesign/police/Montserrat-Medium.ttf' %} ) format('truetype'); /* Spécifiez le chemin vers votre fichier .ttf */
+            }
+            @font-face {
+            font-family: 'Freehand'; /* Le nom que vous donnerez à votre police */
+            src: url({% static '/blogdesign/police/Freehand-Regular.ttf' %} ) format('truetype'); /* Spécifiez le chemin vers votre fichier .ttf */
+            }
+        </style>
+       
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading" style="font-family: 'Montserrat', sans-serif;" id="phrase">Plateforme des foodpreneurs qui feront l'Afrique de demain</div>
+                <!-- <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a> -->
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section" id="formations">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase" style="font-family: 'Anton', sans-serif;">Formations payantes</h2>
+                    <h3 class="section-subheading text-muted" style="font-family: 'Montserrat', sans-serif;">Les formations de Next Food Africa sont soigneusement conçues pour s'aligner sur les particularités du marché africain, visant à offrir un soutien maximal et efficace pour le succès de vos projets.</h3>
+                </div>
+                <!--  -->
+                <!-- <div class="row text-center">
+                    {%for formation in formations%}
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3"  style="font-family: 'Freehand', sans-serif;">{{formation.formation_name}}</h4>
+                        <p class="text-muted" style="font-family: 'Montserrat', sans-serif;">{{formation.formation_descr}}</p>
+                    <a href="">Voir détails</a>
+                    </div>
+                    {% endfor %}
+                </div> -->
+                <!--  -->
+                <div class="row">
+                    {%for formation in formations%}
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <!-- Portfolio item 1-->
+                        <div class="portfolio-item">
+                             
+                                <img class="img-fluid" src="../media/{{formation.formation_img}}" alt="..." />
+                            <div class="portfolio-caption" align="center">
+                                <div class="portfolio-caption-heading"> <h4 class="my-3"  style="font-family: 'Freehand', sans-serif;">{{formation.formation_name}}</h4></div>
+                                <div class="portfolio-caption-subheading text-muted" style="font-family: 'Montserrat', sans-serif;">{{formation.short_descr}}...etc <p><a class="portfolio-link" data-bs-toggle="modal" href="#Modal_{{formation.formation_id}}">Voir détails</a></p> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- modal -->
+                    <div class="portfolio-modal modal fade" id="Modal_{{formation.formation_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="close-modal" data-bs-dismiss="modal"><img src={% static "assets/img/close-icon.svg" %} alt="Close modal" /></div>
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8">
+                                            <div class="modal-body">
+                                                <!-- Project details-->
+                                                <h2 class="text-uppercase">{{formation.formation_name}}</h2>
+                                                <p class="item-intro text-muted">Inscivez-vous dès maintenant.</p>
+                                                <img class="img-fluid d-block mx-auto" src="../media/{{formation.formation_img}}" alt="..." />
+                                                <p>{{formation.formation_descr}}</p>
+                                                <ul class="list-inline">
+                                                    <li>
+                                                        <strong>Date de création:</strong>
+                                                        {{formation.created_at}}
+                                                    </li>
+                                                    <li>
+                                                        <strong>Type de formation:</strong>
+                                                        {{formation.formation_type}}
+                                                    </li>
+                                                    <li>
+                                                        <strong>Prix:</strong>
+                                                        {{formation.formation_prix}} Ariary
+                                                    </li>
+                                                    <li>
+                                                        <strong>Durée:</strong>
+                                                        {{formation.formation_duree}} Minutes
+                                                    </li>
+                                                </ul>
+                                                <form action="{%url "subscribe_course" %}"  method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="formation_id" value="{{formation.formation_id}}">
+                                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="submit" >
+                                                        <i class="fas fa-plus me-1"></i>
+                                                        S'inscrire
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal -->
+                    {% endfor %}
+                </div>
+                <!--  -->
+                <!-- test formation payante -->
+                <!-- fin test formation payante -->
+        
+            </div>
+        </section>
+        <!-- Portfolio Grid-->
+        <section class="page-section bg-light" id="bientot">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase" style="font-family: 'Anton', sans-serif;">Formations gratuites</h2>
+                    <h3 class="section-subheading text-muted"  style="font-family: 'Montserrat', sans-serif;">
+                        Bientôt, à venir sur notre plateforme, différents <b>mini-programmes gratuits</b> qui vous apporteront plus qu'un apperçu des stratégies essentielles et pertinentes pour démarrer votre apprentissage dans le milieu du foodbusiness en Afrique.
+                    </h3>
+                </div>
+                <div class="row">
+                    {%for biento in prog%}
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <!-- Portfolio item 1-->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
+                              
+                                <img class="img-fluid" src="../media/{{biento.formation_img}}" alt="..." />
+                            </a>
+                            <div class="portfolio-caption" align="center">
+                                <div class="portfolio-caption-heading"> <h4 class="my-3"  style="font-family: 'Freehand', sans-serif;">{{biento.formation_name}}</h4></div>
+                                <!-- <div class="portfolio-caption-heading"><b style="font-family: 'Freehand', sans-serif;">{{biento.formation_name}}</b></div> -->
+                                <div class="portfolio-caption-subheading text-muted" style="font-family: 'Montserrat', sans-serif;">{{biento.short_descr}}...etc<p><a class="portfolio-link" data-bs-toggle="modal" href="#Modal_{{biento.formation_id}}">Voir détails</a></p></div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- modal -->
+                     <div class="portfolio-modal modal fade" id="Modal_{{biento.formation_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="close-modal" data-bs-dismiss="modal"><img src={% static "assets/img/close-icon.svg" %} alt="Close modal" /></div>
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8">
+                                            <div class="modal-body">
+                                                <!-- Project details-->
+                                                <h2 class="text-uppercase">{{biento.formation_name}}</h2>
+                                                <p class="item-intro text-muted">Inscivez-vous dès maintenant.</p>
+                                                <img class="img-fluid d-block mx-auto" src="../media/{{biento.formation_img}}" alt="..." />
+                                                <p>{{biento.formation_descr}}</p>
+                                                <ul class="list-inline">
+                                                    <li>
+                                                        <strong>Date de création:</strong>
+                                                        {{biento.created_at}}
+                                                    </li>
+                                                    <li>
+                                                        <strong>Type de formation:</strong>
+                                                        {{biento.formation_type}}
+                                                    </li>
+                                                    <li>
+                                                        <strong>Prix:</strong>
+                                                        {{biento.formation_prix}} Ariary
+                                                    </li>
+                                                    <li>
+                                                        <strong>Durée:</strong>
+                                                        {{biento.formation_duree}} Minutes
+                                                    </li>
+                                                </ul>
+                                             
+                                                    <input type="hidden" name="formation_id" value="{{biento.formation_id}}">
+                                                    <a class="btn btn-primary btn-xl text-uppercase" href="{%url "register" %}">
+                                                        <i class="fas fa-plus me-1"></i>
+                                                        S'inscrire
+                                                    </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal -->
+                    {% endfor %}
+                </div>
+
+            </div>
+        </section>
+        <!-- About-->
+        <section class="page-section" id="partenaires">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase" style="font-family: 'Anton', sans-serif;">Partenaires</h2>
+                    <h3 class="section-subheading text-muted" style="font-family: 'Montserrat', sans-serif;">Ils nous soutiennent.</h3>
+                </div>
+                <ul class="timeline">
+                    {%for item in part%}
+                    {% if item.partner_id|divisibleby:2 %}
+                    <li>
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="/static/{{ item.logo }}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <!-- <h4>2009-2011</h4> -->
+                                <h4 class="subheading">{{ item.nom }}</h4>
+                            </div>
+                            <div class="timeline-body"><p class="text-muted" style="font-family: 'Montserrat', sans-serif;">{{ item.Description }}</p></div>
+                        </div>
+                        <br>
+                    </li>
+
+                    {% else %}
+
+                    <li class="timeline-inverted">
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="/static/{{ item.logo }}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <!-- <h4>March 2011</h4> -->
+                                <h4 class="subheading">{{ item.nom }}</h4>
+                            </div>
+                            <div class="timeline-body"><p class="text-muted" style="font-family: 'Montserrat', sans-serif;">{{ item.Description }}</p></div>
+                        </div>
+                        <br>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    
+                  
+                </ul>
+            </div>
+        </section>
+        <!-- Team-->
+        <section class="page-section bg-light" id="team">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase" style="font-family: 'Anton', sans-serif;">La Team</h2>
+                    <h3 class="section-subheading text-muted" style="font-family: 'Montserrat', sans-serif;">Rencontrez notre équipe dynamique, prête à transformer vos idées en réalité !</h3>
+                </div>
+                <div class="row">
+                    {%for item in collabos%}
+                    <div class="col-lg-4">
+                        <div class="team-member">
+                            <img class="mx-auto rounded-circle" src="/static/{{ item.picture }}"  alt="..." />
+                            <h4 style="font-family: 'Freehand', sans-serif;">{{item.firstname}} {{item.lastname}}</h4>
+                            <p class="text-muted">{{item.post}} </p>
+                            <!-- <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Twitter Profile"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center"><p class="large text-muted" style="font-family: 'Montserrat', sans-serif;">
+                        Une équipe qui se distingue par son expertise technique pointue, sa créativité sans limites et son engagement inébranlable à fournir des solutions exceptionnelles à nos clients.
+                    </p></div>
+                </div>
+            </div>
+        </section>
+        <!-- Clients-->
+        <!-- <div class="py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/microsoft.svg" alt="..." aria-label="Microsoft Logo" /></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/google.svg" alt="..." aria-label="Google Logo" /></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/facebook.svg" alt="..." aria-label="Facebook Logo" /></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/ibm.svg" alt="..." aria-label="IBM Logo" /></a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Contact-->
+        <section class="page-section" id="contact">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase" style="font-family: 'Anton', sans-serif;">Contact Us</h2>
+                    <h3 class="section-subheading text-muted">Laissez nous un petit message.</h3>
+                </div>
+                <!-- * * * * * * * * * * * * * * *-->
+                <!-- * * SB Forms Contact Form * *-->
+                <!-- * * * * * * * * * * * * * * *-->
+                <!-- This form is pre-integrated with SB Forms.-->
+                <!-- To make this form functional, sign up at-->
+                <!-- https://startbootstrap.com/solution/contact-forms-->
+                <!-- to get an API token!-->
+                <form id="contactForm" action="{% url "sendmessage" %}" data-sb-form-api-token="API_TOKEN" method="post">
+                    {% csrf_token %}
+                    <div class="row align-items-stretch mb-5">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- Name input-->
+                                <input class="form-control" name="sender" id="name" type="text" placeholder="Votre Nom *" data-sb-validations="required" required/>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">Veuillez entrer votre nom.</div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Email address input-->
+                                <input class="form-control" name="email" id="email" type="email" placeholder="Votre Email *" data-sb-validations="required,email" required/>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Veuillez entrer votre Email</div>
+                            </div>
+                            <div class="form-group mb-md-0">
+                                <!-- Phone number input-->
+                                <input class="form-control" name="phone" id="phone" type="tel" placeholder="Votre numéro de téléhone" data-sb-validations="required" required/>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">Veuillez entrer votre numéro de téléhone</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-textarea mb-md-0">
+                                <!-- Message input-->
+                                <textarea class="form-control" name="message" id="message" placeholder="Votre Message *" data-sb-validations="required"></textarea>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit success message-->
+                    <!---->
+                    <!-- This is what your users will see when the form-->
+                    <!-- has successfully submitted-->
+                    <div class="d-none" id="submitSuccessMessage">
+                        <div class="text-center text-white mb-3">
+                            <div class="fw-bolder">Form submission successful!</div>
+                            To activate this form, sign up at
+                            <br />
+                            <!-- <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a> -->
+                        </div>
+                    </div>
+                    <!-- Submit error message-->
+                    <!---->
+                    <!-- This is what your users will see when there is-->
+                    <!-- an error submitting the form-->
+                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                    <!-- Submit Button-->
+                    <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Send Message</button></div>
+                </form>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4" style="font-family: 'Montserrat', sans-serif;">Copyright &copy; Next Food Africa 2024</div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="tiktok"><i class="fab fa-twitter"><img src="/static/images/tiktok.jpeg" style="width: 100%; height: 100%; border-radius: 100%;" alt=""></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"><img src="/static/images/facebook1.png" style="width: 100%; height: 100%; border-radius: 100%;" alt=""></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"><img src="/static/images/linkedin1.png" style="width: 100%; height: 100%; border-radius: 100%;" alt=""></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src={% static "assets/img/portfolio/1.jpg" %} alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Threads
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Illustration
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 2 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Explore
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Graphic Design
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 3 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Finish
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Identity
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 4 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/4.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Lines
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Branding
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 5 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/5.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Southwest
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Website Design
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 6 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/6.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Window
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Photography
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src={% static "/blogdesign/js/scripts.js" %}></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>

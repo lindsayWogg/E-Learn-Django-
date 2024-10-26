@@ -1,0 +1,185 @@
+
+
+
+{% include 'administration/header_admin.html' %}
+
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3><i class="fa fa-angle-right"></i> Administration NFA</h3>
+        <div class="row mt">
+            <div class="col-md-12">
+                <div class="content-panel">
+                  <div class="panel-body">
+                  <h4><i class="fa fa-angle-right"></i> Gestion des formations</h4>
+                  <hr>
+                  <table class="table table-striped table-advance table-hover">
+                    
+                    
+                    <thead>
+                      <tr>
+                        <th><i class="fa fa-user"></i> Titre</th>
+                        <th class="hidden-phone"><i class="fa fa-user"></i> type</th>
+                        <th><i class=" fa fa-smile-o"></i> Prix</th>
+                        <th><i class=" fa fa-edit"></i>Options</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for formation in frmt %}
+                      <tr>
+                        <td>{{formation.formation_name}}</td>
+                        <td class="hidden-phone">{{formation.formation_type}}</td>
+                        <td>{{formation.formation_prix}}.0 Ariary</td>
+                        <td>
+                          <div style="display: flex;">
+                            
+                            <div style="margin-left: 5px;">
+                              <form  method="post" action="{%url "edit_formation" %}" >
+                                {% csrf_token %}
+                                <input type="hidden" name="formation_id" value="{{formation.formation_id}}">
+                                <button class="btn btn-primary btn-xs" type="submit"><i class="fa fa-eye"></i> Details</button>
+                              </form>
+                            </div>
+                            <div style="margin-left: 5px;">
+                          <!-- modal delete formation -->
+                          <!-- /showback -->
+            <!--  MODALS -->
+              <!-- Button trigger modal -->
+              <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete_formation">
+                <i class="fa fa-trash-o "></i> Supprimer
+                </button>
+              <!-- Modal -->
+              <div class="modal fade" id="delete_formation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title" id="myModalLabel">Avertissement!!!</h4>
+                    </div>
+                    <div class="modal-body">
+                      Etes-vous sûre de vouloir supprimer cette formation? 
+                    </div>
+                    <div class="modal-footer">
+                      <form method="post" action="{%url "delete_formation" %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="formation_id" value="{{formation.formation_id}}">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                      <button type="submit" class="btn btn-primary">Oui</button>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- /showback -->
+                          <!-- end modal delete formation -->
+                            </div>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                      {% endfor %}
+                 
+                  
+                     
+                  
+                    </tbody>
+                    
+                  </table>
+                  <div class="add-task-row">
+                    <button class="btn btn-success btn-sm pull-left" data-toggle="modal" data-target="#myModal">
+                      <i class="fa fa-plus"></i> Ajouter Formation
+                      </button>
+                    
+                    
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Créatioin d'une formation</h4>
+                          </div>
+                          <div class="modal-body">
+                           
+
+                           <div class="form">
+                            <h4 class="mb"><i class="fa fa-angle-right"></i> Veuillez remplir tous les champs.</h4>
+                            <form class="form-horizontal style-form" method="post" action="{%url "create_formation" %}"  enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Titre</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="formation_name" class="form-control" placeholder="Titre de la formation">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Identification: </label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="formation_id" class="form-control" placeholder="exemple: formation_combat">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Type :</label>
+                                <div class="col-sm-10">
+                                  <select name="formation_type" class="form-control" id="">
+                                    <option value="gratuit">Gratuit</option>
+                                    <option value="payant">Payant</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Prix :</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="formation_prix" pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="chiffre seulement">
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Description:</label>
+                                <div class="col-sm-10">
+                                  <textarea class="form-control" name="formation_descr" id="contact-message" placeholder="Déscription de la formation" rows="5" data-rule="required" ></textarea>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Image:</label>
+                                <div class="col-sm-10">
+                                  <input type="file" name="formation_img"  pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="chiffre seulement">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Vidéo présentation:</label>
+                                <div class="col-sm-10">
+                                  <input type="file" name="formation_presentation"  pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="chiffre seulement">
+                                </div>
+                              </div>
+                             
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                              </div>
+                            </form>
+                          </div>
+
+
+
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <!-- /content-panel -->
+              </div>
+        </div>
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+    {% include 'users/footer.html' %}

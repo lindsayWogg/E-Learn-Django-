@@ -1,0 +1,221 @@
+
+
+
+{% include 'users/header.html' %}
+
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        
+       
+
+
+        <div class="row mt">
+          <div class="col-md-12">
+            
+            <div class="content-panel">
+
+              <h4><i class="fa fa-angle-right"></i> Formation: <b>{{formation.formation_name}}</b></h4>
+              <hr>
+              <br>
+                      <div style="display: block;">
+                        <div class="col-md-6">
+                          <div class="col-md-10 mb">
+                            <div class="pn">
+                              <div class="pn" id="blog-bg" style="background: url(/media//{{formation.formation_img}}) no-repeat center top;background-size: cover;"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <b>Description du cours:</b><br>
+                          <p contenteditable="true" class="mt">
+                            {{formation.formation_descr}}
+                          </p>
+                          
+                        </div>
+
+                        <div class="col-md-6">
+                          <h4><i class="fa fa-angle-right"></i> Progression sur la formation: {{progress}}%</h4>
+                          <div class="progress progress-striped active">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">
+                              <span class="sr-only">{{progress}}% Complete</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                
+                
+                <br>
+                <br>
+                <br>
+                
+               
+                
+
+              <table class="table table-striped table-advance table-hover">
+
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-bullhorn"></i> Ordre</th>
+                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Titres</th>
+                    <th><i class="fa fa-bookmark"></i> Notes</th>
+                    <th><i class=" fa fa-edit"></i> status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>             
+                  {% if formation.formation_presentation %}
+                  <tr>
+                    <td>
+                      <h6><b><a href="basic_table.html#"></a></b></h6>
+                    </td>
+                    <td class="hidden-phone"><h4><b><a href="basic_table.html#">Presentation</a></b></h4></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <div style="display: flex;">
+                        <div style="margin-left: 5px;">
+                        <a href="" class="btn btn-info btn-xs" data-toggle="modal" data-target="#presentation"><i class="fa fa-eye"></i> Voir</a>
+                        </div>
+                        
+                      </div>
+                      <div class="modal fade" id="presentation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h4 class="modal-title" id="myModalLabel">Présentation de la formation</h4>
+                            </div>
+                            <div class="modal-body col-md-12">
+                              <video width="100%" height="500" controls>
+                                <source src="/media/{{formation.formation_presentation }}" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+                              </video>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endif %}     
+                  {% for ch_with_status in chapitres_with_status %}
+                  <br>
+                  <tr>
+                    <td><b class="badge">{{ ch_with_status.num }}</b></td>
+                    <td><b  class="badge">{{ ch_with_status.chapitre.titre }}</b></td>
+                    <td>
+                      {% if ch_with_status.chapitre.notes_set.exists %}
+                        {{ ch_with_status.chapitre.notes_set.first.note }}
+                    {% else %}
+                        Quizz non-effectué
+                    {% endif %}
+                    </td>
+                    <td>
+                      {% if ch_with_status.status == 'waiting' %}
+                      <span class="label label-info label-mini"><i class="fa fa-book"></i> En attente</span>
+                      {% elif ch_with_status.status == 'to do' %}
+                      <span class="label label-warning label-mini"><i class="fa fa-hand-o-left"></i> En cours</span>
+                      {% else %}
+                      <span class="label label-success label-mini"><i class="fa fa-check"></i> Terminé</span>
+                      {% endif %}
+
+                    </td>
+                  <td></td>
+                  </tr>
+                    {% for video in video_chaps %}
+                    <div class="modal fade" id="chap_{{ video.chap_id_id }}_{{ video.video_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">Cours: {{ video.titre }}</h4>
+                          </div>
+                          <div class="modal-body col-md-12">
+                            <video width="100%" height="500" controls>
+                              <source src="/media/{{formation.formation_presentation }}" type="video/mp4">
+                              Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+                            </video>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    {% for video in video_chaps %}
+                    
+                      {% if video.chap_id_id == ch_with_status.chapitre.chap_id %}
+                      <tr>
+                        <td></td>
+                        <td>{{ video.titre }}</td>
+                        <td>
+                         
+                        </td>
+                        <td>
+                      
+                        </td>
+                        <td>
+                          
+                          {% if ch_with_status.status != 'waiting' %}
+                          <div style="display: flex;">
+                            <div>
+                              <a href="{% url 'show_chapter' chap_id=ch_with_status.chapitre.chap_id frmt_id=ch_with_status.chapitre.frmt_id%}">
+                                <button class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Voir-new page </button>
+                                </a>
+                            </div>
+                            <div style="margin-left: 5px;">
+                            <a href="" class="btn btn-info btn-xs" data-toggle="modal" data-target="#chap_{{ video.chap_id_id }}_{{ video.video_id }}"><i class="fa fa-eye"></i> voir Modal</a>
+                            </div>
+                          </div>
+                             <div style="margin-left: 5px;">
+                        <!-- <a href="" class="btn btn-info btn-xs" data-toggle="modal" data-target="#presentation"><i class="fa fa-eye"></i> Voir</a> -->
+                        </div>
+                          {% else %}
+                            <span class="label label-info label-mini"><i class="fa fa-eye-slash"></i> Non disponible</span>
+                        {% endif %}
+                        </td>
+                      </tr>
+                      {% endif %}
+                    {% endfor %}
+                    <tr>
+                      <td></td>
+                      <td><b>QUIZZ</b></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        {% if ch_with_status.status != 'waiting' %}
+                        <a href="{% url 'show_quizz' chap_id=ch_with_status.chapitre.chap_id frmt_id=ch_with_status.chapitre.frmt_id%}">
+                          <button class="btn btn-primary btn-xs"><i class="fa fa-bar-chart-o"></i> Effectuer quizz</button>
+                          </a>
+                        {% else %}
+                          <span class="label label-warning label-mini"><i class="fa fa-warning"></i> Quizz non disponible</span>
+                      {% endif %}
+                      </td>
+                      
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+    {% include 'users/footer.html' %}

@@ -1,0 +1,54 @@
+
+
+
+{% include 'users/header.html' %}
+
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3><i class="fa fa-angle-right"></i> Formations disponibles</h3>
+        <div class="row mt">
+          <div class="col-lg-12">
+           
+            {%for formation in prog%}
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+              <div class="content-panel pn">
+                <div id="blog-bg" style="background: url(/media/{{formation.formation_img}}) no-repeat center top;background-size: cover;">
+                  <!-- <div class="badge badge-popular">POPULAR</div> -->
+                  <div class="blog-title">{{formation.formation_name}} <br>
+                    {% if formation.formation_type == 'payant' %}
+                        <span class="label label-warning">Formation payante</span>
+                    {% elif formation.formation_type == 'gratuit' %}
+                        <span class="label label-success">Formation gratuite</span>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="blog-text" >
+                  <div class="truncate-text">
+                    <p>{{ formation.short_descr }} ...etc.
+                      <br>
+                      <form action="{%url "details_course" %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="formation_id" value="{{formation.formation_id}}">
+                        <button type="submit" class="btn btn-primary btn-xs">Détails</button>
+                      </form>
+                    </p>
+                      </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+    {% include 'users/footer.html' %}

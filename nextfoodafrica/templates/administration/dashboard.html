@@ -1,0 +1,124 @@
+
+
+
+{% include 'administration/header_admin.html' %}
+
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3><i class="fa fa-angle-right"></i> Tableau de bord Next Food Africa</h3>
+        <div class="row mt">
+          <div class="col-lg-12">
+           
+            <div class="col-md-4 col-sm-4 mb">
+              <div class="darkblue-panel pn">
+                <div class="darkblue-header">
+                  <h5>UTILISATEURS INSCRITS</h5>
+                </div>
+                <h1 class="mt"><i class="fa fa-users fa-3x"></i></h1>
+                <!-- <p>+ 1,789 NEW VISITS</p> -->
+                <footer>
+                  <div class="centered">
+                    <h2>{{nb_user}}</h2>
+                  </div>
+                </footer>
+              </div>
+              <!--  /darkblue panel -->
+            </div>
+
+
+
+
+
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+              <div class="content-panel pn">
+                <div id="profile-01">
+                  
+                </div>
+                <div class="profile-01 centered">
+                  <a  href="{% url 'free_formation' %}"><p>Formations gratuites</p></a>
+                </div>
+                <div class="centered">
+                  <h4 style="margin-top: 15px;"><p class="followers"><i class="fa fa-list-alt"></i> {{free_frmt}} DISPONIBLES</p></h4>
+                </div>
+              </div>
+            </div>
+
+            {% load static %}
+
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+              <div class="content-panel pn">
+                <div id="dash-payant">
+                  <img src={% static "/dashio//img/payant.gif" %}  style="width:50%;margin-left:25%;">
+                  
+                </div>
+                <div class="profile-01 centered">
+                  <a  href="{% url 'paid_formation' %}"><p>Formations payantes</p></a>
+                </div>
+                <div class="centered">
+                  <h4 style="margin-top: 15px;"><p class="followers"><i class="fa fa-list-alt"></i> {{paid_frmt}} DISPONIBLES</p></h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+              <div class="content-panel pn">
+                <div id="dash-join-course">
+                  <!-- <img src="" alt="../img/entity-formation-and-business-establishment-final.gif"> -->
+                  <img src={% static "/dashio//img/entity-formation-and-business-establishment-final.gif" %}  style="width:38%;margin-left:25%;">
+                </div>
+                <div class="profile-01 centered">
+                  <a href="{% url 'subscribe_formation_demand' %}"><p>Demande souscription formation </p></a>
+                </div>
+                <div class="centered">
+                  <h4 style="margin-top: 15px;"><p class="followers"><i class="fa fa-list-alt"></i> {{subscription_frmt_demand}} DEMANDES</p></h4>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+              <div class="content-panel pn">
+                <div id="profile-subs">
+                  <img src={% static "/dashio//img/subscribe.gif" %}  style="width:50%;margin-left:20%;">
+                </div>
+                <div class="profile-01 centered">
+                  <a href="{% url 'subscription' %}"><p>Demande d'inscription</p></a>
+                </div>
+                <div class="centered">
+                  <h4 style="margin-top: 15px;"><p class="followers"><i class="fa fa-user"></i> {{subs_demand}} DEMANDES</p></h4>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+              <div class="content-panel pn">
+                <div id="profile-subs">
+                  <img src={% static "/dashio//img/payments.gif" %}  style="width:50%;margin-left:20%;">
+                </div>
+                <div class="profile-01 centered">
+                  <a href="{% url 'subscription' %}"><p>Paiements en attentes </p></a>
+                </div>
+                <div class="centered">
+                  <h4 style="margin-top: 15px;"><p class="followers"><i class="fa fa-money"></i> {{paiements}} En attente(s)</p></h4>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+
+    <!--main content end-->
+    {% include 'users/footer.html' %}

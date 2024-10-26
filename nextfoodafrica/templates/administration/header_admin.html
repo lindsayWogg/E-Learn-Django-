@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>Administration</title>
+
+  <!-- Favicons -->
+  <link href={% static "/dashio/img/favicon.png" %} rel="icon">
+  <link href={% static "/dashio/img/apple-touch-icon.png" %} rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href={% static "/dashio/lib/bootstrap/css/bootstrap.min.css" %}  rel="stylesheet">
+  <!--external css-->
+  <link href={% static "/dashio/lib/font-awesome/css/font-awesome.css" %} rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href={% static "/dashio/css/style.css" %}  rel="stylesheet">
+  <link href={% static "/dashio/css/style-responsive.css" %}  rel="stylesheet">
+  
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+<body>
+    <section id="container">
+      <!-- **********************************************************************************************************************************************************
+          TOP BAR CONTENT & NOTIFICATIONS
+          *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+          <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        </div>
+        <!--logo start-->
+        <a href="index.html" class="logo"><b>NextFood <span>Africa</span></b></a>
+        <!--logo end-->
+        <div class="nav notify-row" id="top_menu">
+          <!--  notification start -->
+        
+          <!--  notification end -->
+        </div>
+        <div class="top-menu">
+          <ul class="nav pull-right top-menu">
+            <!-- {% if user.is_authenticated %} -->
+            <li><a class="logout" href="{% url 'logout' %}">Logout</a></li>
+        <!-- {% else %}
+            <li>
+                <div class="alert alert-danger"><b>ERREUR!</b> vous n'êtes pas connecté(e)</div>
+            </li>
+        {% endif %} -->
+        </ul>
+        </div>
+      </header>
+      <!--header end-->
+      <!-- **********************************************************************************************************************************************************
+          MAIN SIDEBAR MENU
+          *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+        <div id="sidebar" class="nav-collapse ">
+          <!-- sidebar menu start-->
+          <ul class="sidebar-menu" id="nav-accordion">
+            <p class="centered"><a href="profile.html"><img src={% static "/blogdesign/assets/img/8.png"%}  class="img-circle" width="80"></a></p>
+            <h5 class="centered">{{user.first_name}} {{user.last_name}}</h5>
+            <li class="mt">
+              <a href="{% url 'admin_dashboard' %}">
+                <i class="active fa fa-dashboard"></i>
+                <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+              <a href="{% url 'subscription' %}">
+              <i class="fa fa-desktop"></i>
+              <span>Inscription</span>
+              </a>
+            </li>
+            <li class="sub-menu">
+                <a href="{% url 'gestion_utilisateurs' %}">
+                <i class="fa fa-desktop"></i>
+                <span>Utilisateurs inscrits</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+              <a a href="{% url 'gestion_formation' %}">
+                <i class="fa fa-cogs"></i>
+                <span>Gestion formations</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+              <a a href="{% url 'gestion_atelier' %}">
+                <i class="fa fa-cogs"></i>
+                <span>Gestion ateliers</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+              <a href="{% url 'subscribe_formation_demand' %}">
+              <i class="fa fa-desktop"></i>
+              <span>Souscription formation</span>
+              </a>
+            </li>
+            <li class="sub-menu">
+              <a a href="{% url 'gestion_paiements' %}">
+                <i class="fa fa-cogs"></i>
+                <span>Gestion paiements</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+              <a  href="javascript:;">
+                <i class="fa fa-book"></i>
+                <span>Autre</span>
+                </a>
+            </li>
+           
+            
+            
+          </ul>
+          <!-- sidebar menu end-->
+        </div>
+      </aside>
+      

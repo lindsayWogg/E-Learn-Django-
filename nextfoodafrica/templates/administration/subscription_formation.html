@@ -17,17 +17,18 @@
                   <div class="panel-body">
                   <h4><i class="fa fa-angle-right"></i> Demande de souscription aux formations</h4>
                   <hr>
+                  <!-- debut tableau -->
                   <table class="table table-striped table-advance table-hover">
                     
                     
                     <thead>
                       <tr>
-                        <th><i class="fa fa-user"></i> Référence</th>
+                        <!-- <th><i class="fa fa-user"></i> Référence</th> -->
                         <th><i class="fa fa-user"></i> Date demande</th>
                         <th class="hidden-phone"><i class="fa fa-user"></i> Apprenant</th>
-                        <th><i class="fa fa-map-marker"></i> Matricule</th>
+                        <!-- <th><i class="fa fa-map-marker"></i> Matricule</th> -->
                         <th><i class=" fa fa-phone"></i> Formation</th>
-                        <th><i class=" fa fa-smile-o"></i> Prix</th>
+                        <!-- <th><i class=" fa fa-smile-o"></i> Prix</th> -->
                         <th><i class=" fa fa-sort-amount-asc"></i> Status Paiement</th>
                         <th><i class=" fa fa-sort-amount-asc"></i> Status</th>
                         <th><i class=" fa fa-edit"></i>Options</th>
@@ -36,12 +37,12 @@
                     <tbody>
                         {% for dmd in demande %}
                       <tr>
-                        <td>{{dmd.ref_transact}}</td>
+                        <!-- <td>{{dmd.ref_transact}}</td> -->
                         <td>{{dmd.date_souscription}}</td>
-                        <td>{{dmd.matricule.last_name}}</td>
-                        <td>{{dmd.matricule.matricule}}</td>
-                        <td>{{dmd.formation_id.formation_name}}</td>
-                        <td>{{dmd.formation_id.formation_prix}}</td>
+                        <td>{{dmd.matricule.last_name}} {{dmd.matricule.first_name}}</td>
+                        <!-- <td>{{dmd.matricule.matricule}}</td> -->
+                        <td>{{dmd.formation_id.formation_name}} </td>
+                        <!-- <td>{{dmd.formation_id.formation_prix}}</td> -->
                         <td>
                           {% if dmd.paiement_status == 'PAID' %}
                           <span class="label label-success"><i class=" fa fa-check-circle"></i> {{dmd.paiement_status}}</span>
@@ -61,62 +62,24 @@
                         
                         <td>
                           {% if dmd.souscription_status == 'Waiting' %}
-                          <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#Valider"><i class="fa fa-check"></i> Valider</button>
-                          
-                            <div class="modal fade" id="Valider" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                              <form action="{%url "validate_formation_subscription" %}"  method="post">
-                                {% csrf_token %}
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-warning"></i> Confirmation</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    Etes-vous sûr de vouloir valider cette demande? <br><br>
-                                    <b> {{dmd.matricule.last_name}}</b> sera inscrit sur la formation <b>{{dmd.formation_id.formation_name}}</b>.
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="hidden" name="dmd_souscription_id" value="{{dmd.dmd_souscription_id}}">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                    <button type="submit" class="btn btn-primary">Valider</button>
-                                  </div>
-                                </div>
-                              </div>
-                          </form>
+                          <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#Valider_{{ dmd.dmd_souscription_id }}"><i class="fa fa-check"></i> Valider</button>
+                          <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Reffuser_{{ dmd.dmd_souscription_id }}"><i class="fa fa-trash-o "></i> Reffuser</button>
+                          {% elif dmd.souscription_status == 'Validated' %}
+                          <div class="btn-group">
+                            <span class="label label-warning" data-toggle="dropdown" ><i class=" fa fa-pencil-square-o"></i> Modifier </span>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a data-toggle="modal" data-target="#set_waiting_{{ dmd.dmd_souscription_id }}">Mettre en attente</a></li>
+                            <li><a  data-toggle="modal" data-target="#Reffuser_{{ dmd.dmd_souscription_id }}">Refuser</a></li>
+                          </ul>
                         </div>
-                            <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Reffuser"><i class="fa fa-trash-o "></i> Reffuser</button>
-                            <div class="modal fade" id="Reffuser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                              <form action="{%url "deny_formation_subscription" %}"  method="post">
-                                {% csrf_token %}
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-warning"></i> Confirmation</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    Etes-vous sûr de vouloir reffuser cette demande? <br><br>
-                                    <b>La demande de {{dmd.matricule.last_name}}</b> sur la formation <b>{{dmd.formation_id.formation_name}}</b> sera reffusé.
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="hidden" name="matricule" value="{{dmd.matricule.matricule}}">
-                                    <input type="hidden" name="formation_id" value="{{dmd.formation_id.formation_id}}">
-                                    <input type="hidden" name="date_souscription" value="{{dmd.date_souscription}}">
-                                    <input type="hidden" name="dmd_souscription_id" value="{{dmd.dmd_souscription_id}}">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
-                                    <button type="submit" class="btn btn-primary">Oui</button>
-                                  </div>
-                                </div>
-                              </div>
-                            </form>
+                          {% else %}
+                          <div class="btn-group">
+                              <span class="label label-warning" data-toggle="dropdown" ><i class=" fa fa-pencil-square-o"></i> Modifier </span>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a data-toggle="modal" data-target="#set_waiting_{{ dmd.dmd_souscription_id }}">Mettre en attente</a></li>
+                              <li><a data-toggle="modal" data-target="#Valider_{{ dmd.dmd_souscription_id }}">Valider</a></li>
+                            </ul>
                           </div>
-                          {% endif %}
-                          {% if dmd.souscription_status == 'Validated' %}
-                          Validé {{dmd.matricule.last_name}}
-                          {% endif %}
-                          {% if dmd.souscription_status == 'Denied' %}
-                          Tsy validé {{dmd.matricule.last_name}}
                           {% endif %}
                         </td>
                       </tr>
@@ -128,7 +91,88 @@
                     </tbody>
                     
                   </table>
-                  
+                  <!-- fin tableau -->
+
+                  <!-- debut modal -->
+                  {% for dmd in demande %}
+                  <div class="modal fade" id="Reffuser_{{ dmd.dmd_souscription_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <form action="{%url "deny_formation_subscription" %}"  method="post">
+                      {% csrf_token %}
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                          <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-warning"></i> Confirmation</h4>
+                        </div>
+                        <div class="modal-body">
+                          Etes-vous sûr de vouloir reffuser cette demande? <br><br>
+                          <b>La demande de {{dmd.matricule.last_name}}</b> sur la formation <b>{{dmd.formation_id.formation_name}}</b> sera reffusé.
+                        </div>
+                        <div class="modal-footer">
+                          <input type="hidden" name="matricule" value="{{dmd.matricule.matricule}}">
+                          <input type="hidden" name="formation_id" value="{{dmd.formation_id.formation_id}}">
+                          <input type="hidden" name="date_souscription" value="{{dmd.date_souscription}}">
+                          <input type="hidden" name="dmd_souscription_id" value="{{dmd.dmd_souscription_id}}">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                          <button type="submit" class="btn btn-primary">Oui</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!--  -->
+                     <!-- debut modal -->
+                     <div class="modal fade" id="set_waiting_{{ dmd.dmd_souscription_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                       <form action="{%url "set_waiting" %}"  method="post">
+                         {% csrf_token %}
+                       <div class="modal-dialog">
+                         <div class="modal-content">
+                           <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                             <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-warning"></i> Confirmation</h4>
+                           </div>
+                           <div class="modal-body">
+                             Etes-vous sûr de vouloir mettre en attente cette demande? <br><br>
+                             <b>La demande de {{dmd.matricule.last_name}}</b> sur la formation <b>{{dmd.formation_id.formation_name}}</b> sera mise en attente.
+                           </div>
+                           <div class="modal-footer">
+                             <input type="hidden" name="matricule" value="{{dmd.matricule.matricule}}">
+                             <input type="hidden" name="formation_id" value="{{dmd.formation_id.formation_id}}">
+                             <input type="hidden" name="date_souscription" value="{{dmd.date_souscription}}">
+                             <input type="hidden" name="dmd_souscription_id" value="{{dmd.dmd_souscription_id}}">
+                             <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                             <button type="submit" class="btn btn-primary">Oui</button>
+                           </div>
+                         </div>
+                       </div>
+                     </form>
+                   </div>
+                   <!--  -->
+                <div class="modal fade" id="Valider_{{ dmd.dmd_souscription_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                  <form action="{%url "validate_formation_subscription" %}"  method="post">
+                    {% csrf_token %}
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel"><i class=" fa fa-warning"></i> Confirmation</h4>
+                      </div>
+                      <div class="modal-body">
+                        Etes-vous sûr de vouloir valider cette demande? <br><br>
+                        <b> {{dmd.matricule.last_name}}</b> sera inscrit sur la formation <b>{{dmd.formation_id.formation_name}}</b>.
+                      </div>
+                      <div class="modal-footer">
+                        <input type="hidden" name="dmd_souscription_id" value="{{dmd.dmd_souscription_id}}">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                      </div>
+                    </div>
+                  </div>
+              </form>
+            </div>
+                <!--  -->
+                  {% endfor %}
+                  <!-- fin modal -->
                 </div>
                 </div>
                 <!-- /content-panel -->

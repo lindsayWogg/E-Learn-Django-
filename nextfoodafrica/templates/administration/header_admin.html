@@ -20,7 +20,8 @@
   <!-- Custom styles for this template -->
   <link href={% static "/dashio/css/style.css" %}  rel="stylesheet">
   <link href={% static "/dashio/css/style-responsive.css" %}  rel="stylesheet">
-  
+  <!-- CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <!-- =======================================================
     Template Name: Dashio
     Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -49,7 +50,7 @@
         <div class="top-menu">
           <ul class="nav pull-right top-menu">
             <!-- {% if user.is_authenticated %} -->
-            <li><a class="logout" href="{% url 'logout' %}">Logout</a></li>
+            <li><a class="logout" href="{% url 'logout' %}"><i class="active fa fa-sign-out"></i> Logout</a></li>
         <!-- {% else %}
             <li>
                 <div class="alert alert-danger"><b>ERREUR!</b> vous n'êtes pas connecté(e)</div>
@@ -71,31 +72,31 @@
             <h5 class="centered">{{user.first_name}} {{user.last_name}}</h5>
             <li class="mt">
               <a href="{% url 'admin_dashboard' %}">
-                <i class="active fa fa-dashboard"></i>
+                <i class="active fa fa-home"></i>
                 <span>Dashboard</span>
                 </a>
             </li>
             <li class="sub-menu">
               <a href="{% url 'subscription' %}">
-              <i class="fa fa-desktop"></i>
+              <i class="fa fa-user-plus"></i>
               <span>Inscription</span>
               </a>
             </li>
             <li class="sub-menu">
                 <a href="{% url 'gestion_utilisateurs' %}">
-                <i class="fa fa-desktop"></i>
+                <i class="fa fa-address-book-o"></i>
                 <span>Utilisateurs inscrits</span>
                 </a>
             </li>
             <li class="sub-menu">
               <a a href="{% url 'gestion_formation' %}">
-                <i class="fa fa-cogs"></i>
+                <i class="fa fa-folder-open"></i>
                 <span>Gestion formations</span>
                 </a>
             </li>
             <li class="sub-menu">
               <a a href="{% url 'gestion_atelier' %}">
-                <i class="fa fa-cogs"></i>
+                <i class="fa fa-map-o"></i>
                 <span>Gestion ateliers</span>
                 </a>
             </li>
@@ -107,7 +108,7 @@
             </li>
             <li class="sub-menu">
               <a a href="{% url 'gestion_paiements' %}">
-                <i class="fa fa-cogs"></i>
+                <i class="fa fa-money"></i>
                 <span>Gestion paiements</span>
                 </a>
             </li>

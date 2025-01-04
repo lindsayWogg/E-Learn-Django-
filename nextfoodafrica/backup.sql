@@ -291,8 +291,8 @@ COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-2	pbkdf2_sha256$180000$SEPwO4aWl6XT$kK2GTfMOXSCdzooztoHPVaFdILrcCv1waO2B87/zTB8=	2024-09-28 08:55:35.915459+00	t	admin	admin	admin	admin@gmail.com	f	t	2024-02-12 18:23:56.884583+00
-4	pbkdf2_sha256$180000$QZkcqJmWxIRf$NtLO7d8m+Z4wCoGCHWcjzgoi3lPyt8hZdTgmcgOGqSc=	2024-10-05 07:19:00.962209+00	f	wogg	Andriamanantena	Lindsay Wogg	newsolomail@gmail.com	f	t	2024-02-17 07:02:39.146877+00
+2	pbkdf2_sha256$180000$SEPwO4aWl6XT$kK2GTfMOXSCdzooztoHPVaFdILrcCv1waO2B87/zTB8=	2024-10-26 06:59:03.326571+00	t	admin	admin	admin	admin@gmail.com	f	t	2024-02-12 18:23:56.884583+00
+4	pbkdf2_sha256$180000$QZkcqJmWxIRf$NtLO7d8m+Z4wCoGCHWcjzgoi3lPyt8hZdTgmcgOGqSc=	2024-10-26 09:32:11.20109+00	f	wogg	Andriamanantena	Lindsay Wogg	newsolomail@gmail.com	f	t	2024-02-17 07:02:39.146877+00
 17	pbkdf2_sha256$180000$YCZsYozzHpXQ$Hj18JlpL6IUYR/eIy+rdtsLpqKnQequAmiq4F+WWRMg=	2024-08-24 14:18:01.628255+00	f	thierry	Thierry	Andriamanantena	thierry@gmail.com	f	t	2024-03-30 17:06:12.519995+00
 18	pbkdf2_sha256$180000$tkG5bFgapcqw$U8rNqUah+iP8GsALAhAE0qO2vZVBnXJWqQv6yHPXXdY=	2024-08-31 13:37:55.012474+00	f	fanja	Annissah	Fanjatiana	fanjatiana@gmail.com	f	t	2024-03-30 17:25:20.80193+00
 19	pbkdf2_sha256$180000$RJfP4VwoivCm$vaDFJzbT/SQ80i/cpd1LFu0ZWQk5Pn/mksuouJd8UL8=	\N	f	toky45	Rojovola	Rakotomamonjy	toky45@gmail.com	f	t	2024-09-07 09:05:07.849472+00
@@ -552,7 +552,9 @@ d0w558rcc2muves8wepqp7e9cpnyjhlt	NmU1OTcwMTliZWEzZTFiYmZkYTgwZjFhZDIxOTI5NWZmMDR
 s4xymc0nep6ph49fywlm9fbqd5mnp5qf	NmU1OTcwMTliZWEzZTFiYmZkYTgwZjFhZDIxOTI5NWZmMDRiYTU1MTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiOTRiOTBmYWE5MmY3NTZkM2E5MGJlM2JiZWY1NzgxOTAzM2MxNGNlIn0=	2024-09-28 07:57:04.074358+00
 bqbjw2tw7qd4said9age6nsy5x1d9mst	ODQ4MDcxYjQwNGFhNDM4NWVhNDM3YTdhZmFjMTc3M2QzNDFlNGNjNDp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjViNjBjNjEwNjNjODc4ZjA3NmU4YWYyNWVkODg2N2MzNTliZDAwIn0=	2024-10-05 07:01:31.316031+00
 y5k1mb0faxer99sdd5q230iwvydgz2gp	NmU1OTcwMTliZWEzZTFiYmZkYTgwZjFhZDIxOTI5NWZmMDRiYTU1MTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiOTRiOTBmYWE5MmY3NTZkM2E5MGJlM2JiZWY1NzgxOTAzM2MxNGNlIn0=	2024-10-12 08:55:36.14352+00
-m0cs5y9psuvlwch24myyjrytjf1j8gqe	ODQ4MDcxYjQwNGFhNDM4NWVhNDM3YTdhZmFjMTc3M2QzNDFlNGNjNDp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjViNjBjNjEwNjNjODc4ZjA3NmU4YWYyNWVkODg2N2MzNTliZDAwIn0=	2024-10-19 07:19:00.969412+00
+m0cs5y9psuvlwch24myyjrytjf1j8gqe	ODQ4MDcxYjQwNGFhNDM4NWVhNDM3YTdhZmFjMTc3M2QzNDFlNGNjNDp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjViNjBjNjEwNjNjODc4ZjA3NmU4YWYyNWVkODg2N2MzNTliZDAwIn0=	2024-10-24 17:19:03.350281+00
+aeefa3zl310k48ox9pi179ip3b8104cj	NmU1OTcwMTliZWEzZTFiYmZkYTgwZjFhZDIxOTI5NWZmMDRiYTU1MTp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiOTRiOTBmYWE5MmY3NTZkM2E5MGJlM2JiZWY1NzgxOTAzM2MxNGNlIn0=	2024-11-09 06:59:03.339005+00
+qqs0b2wwdmg6mdzs6sll2pun87hmk5tm	ODQ4MDcxYjQwNGFhNDM4NWVhNDM3YTdhZmFjMTc3M2QzNDFlNGNjNDp7Il9hdXRoX3VzZXJfaWQiOiI0IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjViNjBjNjEwNjNjODc4ZjA3NmU4YWYyNWVkODg2N2MzNTliZDAwIn0=	2024-11-09 09:32:11.208621+00
 \.
 
 
@@ -602,10 +604,10 @@ COPY public.posts_question (question_id, question_text, chap_id_id, formation_id
 7	que fais tu?	3	ab_bar	{B}
 8	qu'est ce que tu veux?	4	business	{B}
 9	tu as quelle âge?	4	business	{B}
-12		1	tendance	{}
 13	comment t'appelle tu?	8	rest_mada	{B}
 14	où habite-tu?	8	rest_mada	{A}
 15	Quelle âge as-tu?	8	rest_mada	{C}
+12	juste une question	1	tendance	{}
 \.
 
 
@@ -633,8 +635,6 @@ COPY public.posts_answer_possible (answer_id, answer_text, question_id_id, answe
 20	20	9	B
 21	40	9	C
 22	tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu	12	A
-23		12	B
-24		12	C
 25	Rindra	13	A
 26	Lindsay	13	B
 27	Jenny	13	C
@@ -644,6 +644,8 @@ COPY public.posts_answer_possible (answer_id, answer_text, question_id_id, answe
 31	15	15	A
 32	78	15	B
 33	26	15	C
+23	fdfhd	12	B
+24	vxcvxv	12	C
 \.
 
 
@@ -937,7 +939,7 @@ COPY public.posts_souscription_formation (dmd_souscription_id, operator, ref_tra
 9	mvola	1234567	Denied	2024-04-07	2024-04-20	ab_bar	4
 10	mvola	4567654	Validated	2024-04-13	2024-04-20	business	18
 11	mvola	987890	Denied	2024-04-13	2024-04-27	ab_bar	18
-14	mvola	0987654321	Waiting	2024-08-31		form_test	18
+14	mvola	0987654321	Waiting	2024-08-31	2024-04-27	form_test	18
 \.
 
 

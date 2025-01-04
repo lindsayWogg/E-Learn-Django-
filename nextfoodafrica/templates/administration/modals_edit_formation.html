@@ -1,0 +1,511 @@
+    <!-- Modal affichage apperçu présentation formation -->
+    <div class="modal fade" id="modal_{{ formt.formation_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">Cours: {{formt.formation_name }}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+  
+              <video width="100%" height="500" controls>
+                <source src="/media/{{formt.formation_presentation }}" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+              </video>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--END Modal affichage apperçu présentation formation -->
+
+
+       <!-- Modal relpace video présentation -->
+    <div class="modal fade" id="modal_replace_video" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <form action="{%url "update_formation_presentation" %}"  method="post" enctype="multipart/form-data"> 
+          {% csrf_token %}
+          <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">Cours: {{formt.formation_name }}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+             <b>Veuillez sélectionner le nouveau vidéo</b> 
+             <div class="form-group" style="margin-top: 40px;">
+              <label class="col-sm-4 col-sm-4 control-label">Nouvelle vidéo:</label>
+              <div class="col-sm-6">
+                <input type="file" name="formation_presentation"  class="form-control" placeholder="chiffre seulement">
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              <button type="submit" class="btn btn-primary">Charger</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <!-- END Modal relpace video présentation -->
+
+<!-- ##############BOUCLE################# -->
+
+          <!--Modal apperçu présentation chappitre-->
+    {%for item in chap%}
+    <!-- Appercu -->
+    <div class="modal fade" id="modal_chap_{{ item.chap_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Chapitre: {{item.titre }}</h4>
+          </div>
+          <div class="modal-body col-md-12">
+
+            <video width="100%" height="500" controls>
+              <source src="/media/{{item.cours_content }}" type="video/mp4">
+              Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+            </video>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end apperçu -->
+    <!-- Modal relpace video présentation -->
+    <div class="modal fade" id="modal_replace_video_{{ item.chap_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <form action="{%url "update_chapter_presentation" %}"  method="post" enctype="multipart/form-data"> 
+          {% csrf_token %}
+          <input type="hidden" name="chap_id" value="{{item.chap_id  }}">
+          <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+          <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">Chapitre: {{item.titre }}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+             <b>Veuillez sélectionner une nouvelle vidéo</b> 
+             <div class="form-group" style="margin-top: 20px;">
+              <label class="col-sm-4 col-sm-4 control-label">Nouvelle vidéo:</label>
+              <div class="col-sm-6">
+                <input type="file" name="cours_content"  class="form-control">
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              <button type="submit" class="btn btn-primary">Charger</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <!-- END Modal relpace video présentation -->
+      <!-- rename chapter -->
+      <div class="modal fade" id="rename_chap_{{ item.chap_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <form action="{%url "update_chapter_title" %}"  method="post" enctype="multipart/form-data"> 
+          {% csrf_token %}
+      <input type="hidden" name="chap_id" value="{{item.chap_id  }}">
+      <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">Chapitre: {{item.titre }}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+             <b>Si vous êtes sûr(e) de vouloir renommer ce chapitre, entrez le nouveau nom</b> 
+             <div class="form-group" style="margin-top: 20px;">
+              <label class="col-sm-3 col-sm-3 control-label">Nouveau nom:</label>
+              <div class="col-sm-6">
+                <input type="text" name="new_name"  class="form-control">
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+              <button type="submit" class="btn btn-primary">Oui</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <!-- end rename chapter -->
+
+           <!-- Modal suppression chapitre-->
+           <div class="modal fade" id="del_chap_{{ item.chap_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <form action="{%url "delete_chapter" %}"  method="post" enctype="multipart/form-data"> 
+              {% csrf_token %}
+          <input type="hidden" name="chap_id" value="{{item.chap_id  }}">
+          <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title" id="myModalLabel">Chapitre: {{item.titre }}</h4>
+                </div>
+                <div class="modal-body col-md-12">
+                 <b>Êtes-vous sûr(e) de vouloir supprimer ce chapitre?</b> 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                  <button type="submit" class="btn btn-primary">Oui</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          </div>
+      <!--END  Modal suppression chapitre-->
+      <!-- add video -->
+      <div class="modal fade" id="addVideo_chap_{{ item.chap_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Ajouter une vidéo</h4>
+            </div>
+            <div class="modal-body">
+             
+
+             <div class="form">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Veuillez remplir tous les champs.</h4>
+              <form class="form-horizontal style-form" method="post" action="{%url "add_course" %}"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="frmt_id" value="{{formt.formation_id}}">
+                <input type="hidden" name="chap_id" value="{{item.chap_id }}">
+    
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Titre</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="video_title" class="form-control" placeholder="Titre du chapitre">
+                  </div>
+                </div>
+               
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Durée :</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="" class="form-control" placeholder="Titre du chapitre">
+                  </div>
+                </div>
+                
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Description:</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="video_descr" id="contact-message" placeholder="Déscription de la formation" rows="5" data-rule="required" ></textarea>
+                  </div>
+                </div>
+                <!-- debut vidéo de description -->
+                <div class="form-group">
+                  <label class="col-sm-4 col-sm-4 control-label">Vidéo:</label>
+                  <div class="col-sm-6">
+                    <input type="file" name="video_content"   inputmode="numeric" class="form-control" placeholder="chiffre seulement">
+                  </div>
+                </div>
+                <!-- fin vidéo description -->
+              
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                  <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+              </form>
+            </div>
+
+
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <!-- fin modal -->
+
+    {% endfor %}
+    <!-- fin Modal apperçu présentation chappitre-->
+
+
+
+        <!-- Modal suppression Video presentation -->
+        <div class="modal fade" id="modal_delete_video" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <form action="{%url "delete_formation_presentation" %}"  method="post" enctype="multipart/form-data"> 
+              {% csrf_token %}
+              <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title" id="myModalLabel">Cours: {{formt.formation_name }}</h4>
+                </div>
+                <div class="modal-body col-md-12">
+                 <b>Êtes-vous sûr(e) de vouloir supprimer cette vidéo?</b> 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+                  <button type="submit" class="btn btn-primary">Oui</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          </div>
+      <!--END  Modal suppression Video presentation -->
+
+
+
+
+      <!-- begin -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Création d'une chapitre</h4>
+            </div>
+            <div class="modal-body">
+             
+
+             <div class="form">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Veuillez remplir tous les champs.</h4>
+              <form class="form-horizontal style-form" method="post" action="{%url "create_chapter" %}"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="frmt_id" value="{{formt.formation_id}}">
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Titre</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="formation_name" class="form-control" placeholder="Titre du chapitre">
+                  </div>
+                </div>
+               
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Durée :</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="" class="form-control" placeholder="Titre du chapitre">
+                  </div>
+                </div>
+                
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Description:</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="formation_descr" id="contact-message" placeholder="Déscription de la formation" rows="5" data-rule="required" ></textarea>
+                  </div>
+                </div>
+                <!-- debut vidéo de description -->
+                <div class="form-group">
+                  <label class="col-sm-4 col-sm-4 control-label">Vidéo description:</label>
+                  <div class="col-sm-6">
+                    <input type="file" name="formation_presentation"  pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="chiffre seulement">
+                  </div>
+                </div>
+                <!-- fin vidéo description -->
+        
+               
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                  <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+              </form>
+            </div>
+
+
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <!-- end -->
+
+
+
+      <div class="modal fade" id="addVideo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Ajouter une vidéo</h4>
+            </div>
+            <div class="modal-body">
+             
+
+             <div class="form">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Veuillez remplir tous les champs.</h4>
+              <form class="form-horizontal style-form" method="post" action="{%url "add_course" %}"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="frmt_id" value="{{formt.formation_id}}">
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Pour le chapitre:</label>
+                  <div class="col-sm-10">
+                    <select name="chap_id" id="" class="form-control" >
+                      {%for item in chap%}
+                      <option value="{{ item.chap_id }}">{{ item.titre }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Titre</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="video_title" class="form-control" placeholder="Titre du chapitre">
+                  </div>
+                </div>
+               
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Durée :</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="" class="form-control" placeholder="Titre du chapitre">
+                  </div>
+                </div>
+                
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Description:</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="video_descr" id="contact-message" placeholder="Déscription de la formation" rows="5" data-rule="required" ></textarea>
+                  </div>
+                </div>
+                <!-- debut vidéo de description -->
+                <div class="form-group">
+                  <label class="col-sm-4 col-sm-4 control-label">Vidéo description:</label>
+                  <div class="col-sm-6">
+                    <input type="file" name="video_content"  pattern="[0-9]*" inputmode="numeric" class="form-control" placeholder="chiffre seulement">
+                  </div>
+                </div>
+                <!-- fin vidéo description -->
+               
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                  <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+              </form>
+            </div>
+
+
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <!-- fin modal -->
+
+
+
+
+      {% for video in video_chaps %}
+      <!-- apperçu cours -->
+      <div class="modal fade" id="modal_view_course_{{video.video_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">Chapitre: {{video.titre }}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+  
+              <video width="100%" height="500" controls>
+                <source src="/media/{{video.cours_content }}" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos au format MP4.
+              </video>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- fin apperçu cours -->
+        <!-- Modal relpace video course -->
+    <div class="modal fade" id="modal_replace_course_video_{{ video.video_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <form action="{%url "update_course_content" %}"  method="post" enctype="multipart/form-data"> 
+        {% csrf_token %}
+        <input type="hidden" name="video_id" value="{{ video.video_id }}">
+        <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Chapitre: {{video.titre}}</h4>
+          </div>
+          <div class="modal-body col-md-12">
+           <b>Veuillez sélectionner une nouvelle vidéo </b> 
+           <div class="form-group" style="margin-top: 20px;">
+            <label class="col-sm-4 col-sm-4 control-label">Nouvelle vidéo:</label>
+            <div class="col-sm-6">
+              <input type="file" name="cours_content"  class="form-control">
+            </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+            <button type="submit" class="btn btn-primary">Changer</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+    <!-- END Modal relpace video course -->
+
+    <!-- Modal suppression cours -->
+    <div class="modal fade" id="modal_delete_course_{{ video.video_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <form action="{%url "delete_course" %}"  method="post" enctype="multipart/form-data"> 
+        {% csrf_token %}
+        <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+        <input type="hidden" name="video_id" value="{{ video.video_id }}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Cours: {{video.titre}}</h4>
+          </div>
+          <div class="modal-body col-md-12">
+           <b>Êtes-vous sûr(e) de vouloir supprimer ce cours?</b> 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+            <button type="submit" class="btn btn-primary">Oui</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+<!--END  Modal suppression cours -->
+      <!-- rename course -->
+      <div class="modal fade" id="rename_course_{{ video.video_id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <form action="{%url "update_course_title" %}"  method="post" enctype="multipart/form-data"> 
+          {% csrf_token %}
+          <input type="hidden" name="formation_id" value="{{formt.formation_id }}">
+          <input type="hidden" name="video_id" value="{{ video.video_id }}">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">Cours: {{video.titre}}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+             <b>Si vous êtes sûr(e) de vouloir renommer ce cours entrez le noveau nom sinon cliquez sur "Annuler"</b> 
+             <div class="form-group" style="margin-top: 20px;">
+              <label class="col-sm-3 col-sm-3 control-label">Nouveau nom:</label>
+              <div class="col-sm-6">
+                <input type="text" name="new_name"  class="form-control">
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary">Renommer</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <!-- end  rename course-->
+{% endfor %}

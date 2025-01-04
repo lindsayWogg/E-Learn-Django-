@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='demande_inscription',
             name='date_validation',
-            field=models.DateField(default=''),
+            field=models.DateField(null=True, blank=True), 
         ),
     ]

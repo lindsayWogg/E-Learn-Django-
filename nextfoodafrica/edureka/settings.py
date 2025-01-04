@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'ckeditor',
+    'fontawesomefree',
     # 'django.contrib.auth',
 ]
 

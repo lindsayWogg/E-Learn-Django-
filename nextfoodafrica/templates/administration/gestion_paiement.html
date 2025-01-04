@@ -29,7 +29,6 @@
                     </div>
                     {% endif %}
                 {% endfor %}
-
               {% endif %}
                   <h4><i class="fa fa-angle-right"></i> Gestion des paiements</h4>
                   <hr>
@@ -39,48 +38,131 @@
                     <thead>
                       
                       <tr>
-                        <th><i class="fa fa-user"></i> Utiisateur</th>
                         <th><i class="fa fa-calendar"></i> Date</th>
-                        <th class="hidden-phone"><i class="fa fa-user"></i> Référence</th>
-                        <th class="hidden-phone"><i class="fa fa-user"></i> Montant</th>
+                        <th><i class="fa fa-user"></i> Utiisateur</th>
+                        <!-- <th class="hidden-phone"><i class="fa fa-user"></i> Référence</th> -->
+                        <!-- <th class="hidden-phone"><i class="fa fa-user"></i> Montant</th> -->
                         <th><i class="fa fa-map-marker"></i> Formation</th>
-                        <th><i class=" fa fa-phone"></i> N° Expéditeur</th>
-                        <th><i class=" fa fa-phone"></i> N° Recepteur</th>
-                        <th><i class=" fa fa-sort-amount-asc"></i> Type transactio</th>
-                        <th><i class=" fa fa-edit"></i>Remarque</th>
+                        <!-- <th><i class=" fa fa-phone"></i> N° Expéditeur</th> -->
+                        <!-- <th><i class=" fa fa-phone"></i> N° Recepteur</th> -->
+                        <!-- <th><i class=" fa fa-sort-amount-asc"></i> Type transactio</th> -->
+                        <!-- <th><i class=" fa fa-edit"></i>Remarque</th> -->
+                        <th>Plus</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for paiement in paiements %}
                       <tr>
-                        <td>{{paiement.matricule.last_name}}</td>
                         <td>{{paiement.date_paiement}}</td>
-                        <td>{{paiement.ref_transact}}</td>
-                        <td>{{paiement.montant}}</td>
+                        <td>{{paiement.matricule.last_name}}</td>
+                        <!-- <td>{{paiement.ref_transact}}</td> -->
+                        <!-- <td>{{paiement.montant}}</td> -->
                         <td>{{paiement.formation_id.formation_name}}</td>
-                        <td>{{paiement.sender}}</td>
-                        <td>{{paiement.receiver}}</td>
-                        <td>{{paiement.transact_type}}</td>
-                        <td>{{paiement.remarque}}</td>
+                        <!-- <td>{{paiement.sender}}</td> -->
+                        <td>
+                          {{paiement.stat_paiement}}
+                        </td>
+                        <!-- <td>{{paiement.receiver}}</td> -->
+                        <!-- <td>{{paiement.transact_type}}</td> -->
+                        <!-- <td>{{paiement.remarque}}</td> -->
                           <!-- <td>
                             <a href=""><button class="btn btn-info btn-xs"><i class="fa fa-eye"></i></button></a>
                           <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
                           <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
                         </td> -->
+                        <td>
+                          <div style="margin-left: 5px;">
+                              <button class="btn btn-primary btn-xs"  data-toggle="modal" data-target="#view_paiement_{{paiement.transaction_id}}"><i class="fa fa-eye"></i> Details</button>
+                          </div>
+                        </td>
                       </tr>
                       {% endfor %}
-                 
-                  
-                     
-                  
-                    </tbody>
-                    
-                  </table>
+                 </tbody>
+                 </table>
+
                   <div class="add-task-row">
                     <button class="btn btn-success btn-sm pull-left" data-toggle="modal" data-target="#myModal">
                       <i class="fa fa-plus"></i>  Nouveau paiement
                     </button>
                   </div>
+                  <!-- debut content modal -->
+                  {% for paiement in paiements %}
+                  <div class="modal fade" id="view_paiement_{{paiement.transaction_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title" id="myModalLabel">Créatioin d'une formation</h4>
+                        </div>
+                        <div class="modal-body">
+                         <div class="form">
+                          <h4 class="mb"><i class="fa fa-angle-right"></i> Détails de paiement.</h4>
+                          <table class="table table-striped table-advance table-hover">
+                            <tbody>
+                              <tr>
+                                <td><a>Date paiement:</a></td>
+                                <td>{{paiement.date_paiement}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>Utilisateur:</a></td>
+                                <td>{{paiement.matricule.first_name}} {{paiement.matricule.last_name}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>Matricule:</a></td>
+                                <td>{{paiement.matricule.matricule}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>Formation:</a></td>
+                                <td>{{paiement.formation_id.formation_name}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>Formation price:</a></td>
+                                <td>{{paiement.formation_id.formation_prix}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>transaction amount:</a></td>
+                                <td>{{paiement.montant}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>transaction status:</a></td>
+                                <td><span class="label label-info label-mini">{{paiement.stat_paiement}}</span></td>
+                              </tr>
+                              <tr>
+                                <td><a>Type transaction  :</a></td>
+                                <td>{{paiement.transact_type}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>N° Tel expéditeur  :</a></td>
+                                <td>{{paiement.sender}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>N° Tel recepteur  :</a></td>
+                                <td>{{paiement.receiver}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>Réf transaction  :</a></td>
+                                <td>{{paiement.ref_transact}}</td>
+                              </tr>
+                              <tr>
+                                <td><a>Remarque  :</a></td>
+                                <td>{{paiement.remarque}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                              
+                            
+                            
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  <!-- end content modal -->
                   <!--  -->
                   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -194,4 +276,5 @@
     <!-- /MAIN CONTENT -->
 
     <!--main content end-->
+
     {% include 'users/footer.html' %}

@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 # 
 from django.template.loader import render_to_string
-# from weasyprint import HTML
+from weasyprint import HTML
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from .forms import *
@@ -660,7 +660,150 @@ def view_pdf(request,pdf_path):
     response['X-Frame-Options'] = 'ALLOW-FROM *'
     
     return response
-    
+
+
+@login_required
+def update_formation_presentation(request):
+    user_logged=get_user_logged(request)
+    formation_id=request.POST['formation_id'] 
+    current_formation=formation.objects.filter(formation_id=formation_id).update(
+        formation_presentation=upload_file(request.FILES.get('formation_presentation'),'presentations')
+    )
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Modification effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+ 
+@login_required
+def update_course_content(request):
+    user_logged=get_user_logged(request)
+    video_id=request.POST['video_id'] 
+    current=Video_chap.objects.filter(video_id=video_id).update(
+        cours_content=upload_file(request.FILES.get('cours_content'),'course')
+    )
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Modification effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+
+
+@login_required
+def update_chapter_presentation(request):
+    user_logged=get_user_logged(request)
+    chap_id=request.POST['chap_id'] 
+    current_formation=chapitre.objects.filter(chap_id=chap_id).update(
+        cours_content=upload_file(request.FILES.get('cours_content'),'course')
+    )
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Modification effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+ 
+  
+@login_required
+def update_chapter_name(request):
+    user_logged=get_user_logged(request)
+    chap_id=request.POST['chap_id'] 
+    current_formation=chapitre.objects.filter(chap_id=chap_id).update(
+        titre=request.POST.get('new_name')
+    )
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id')).order_by('chap_id')
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Modification effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+ 
+@login_required
+def update_course_name(request):
+    user_logged=get_user_logged(request)
+    video_id=request.POST['video_id'] 
+    current=Video_chap.objects.filter(video_id=video_id).update(
+        titre=request.POST.get('new_name')
+    )
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id')).order_by('chap_id')
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Modification effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+
+
+  
+  
+@login_required
+def delete_chapter(request):
+    user_logged=get_user_logged(request)
+    formation_id=request.POST['formation_id'] 
+    cur_chap=chapitre.objects.get(chap_id=request.POST['chap_id'] )
+    cur_chap.delete()
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Suppresssion effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+  
+  
+  
+@login_required
+def delete_course(request):
+    user_logged=get_user_logged(request)
+    formation_id=request.POST['formation_id'] 
+    cur_chap=Video_chap.objects.get(video_id=request.POST['video_id'] )
+    cur_chap.delete()
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Suppresssion effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
+  
+
+
+@login_required
+def delete_formation_presentation(request):
+    user_logged=get_user_logged(request)
+    formation_id=request.POST['formation_id'] 
+    current_formation=formation.objects.filter(formation_id=formation_id).update(
+        formation_presentation=""
+    )
+    formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
+    chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+    counter=0
+    for ch in chap:
+        counter+=1
+        ch.num=counter
+    video_chaps=Video_chap.objects.filter(formation_id=request.POST.get('formation_id'))
+    messages.success(request,("Suppresssion effectuée avec susscès"))
+    return render(request, 'administration/edit_formation.html',{'formt':formt,'chap':chap,'video_chaps': video_chaps})
 
 @login_required
 def show_formation_details(request):
@@ -1145,7 +1288,7 @@ def edit_formation(request):
     if request.method == 'POST':
         print(f"FORMATION_ID:{request.POST.get('formation_id')}")
         formt=formation.objects.get(formation_id=request.POST.get('formation_id'))
-        chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id'))
+        chap=chapitre.objects.filter(frmt_id=request.POST.get('formation_id')).order_by('chap_id')
         counter=0
         for ch in chap:
             counter+=1
@@ -1341,6 +1484,21 @@ def deny_formation_subscription(request):
             return redirect('subscribe_formation_demand')
     elif user_logged.user_type=='student':
         return redirect('dashboard')
+
+@login_required
+def make_wait_formation_subscription(request):
+    user_logged=get_user_logged(request)
+    date_obj=datetime.strptime(request.POST.get('date_souscription'), "%B %d, %Y")
+    date_str= date_obj.strftime('%Y-%m-%d')
+    print(f"DATY:{date_str}")
+    
+    if user_logged.user_type=='admin':
+        if request.method == 'POST':
+            print(f"demande:{request.POST.get('dmd_souscription_id')}")
+            souscription_formation.objects.filter(dmd_souscription_id=request.POST.get('dmd_souscription_id'),matricule=request.POST.get('matricule'),formation_id=request.POST.get('formation_id'),date_souscription=date_str).update(souscription_status='Waiting',date_modification=datetime.today().strftime('%F'))
+            return redirect('subscribe_formation_demand')
+    elif user_logged.user_type=='student':
+        return redirect('dashboard')
     
 @login_required
 def gestion_paiement(request):
@@ -1365,11 +1523,20 @@ def gestion_paiement(request):
                 return redirect('gestion_paiements')
             else:
                 messages.error(request,' Merci de vérifier la référence du transaction.')
-                return render(request, 'administration/gestion_paiement.html',{})
+                return render(request, 'administration/gestion_paiement.html',{'formations':data,'utilisateurs':users,'paiements':paiements})
         else:
             users=utilisateur.objects.filter(user_type='student')
             data=formation.objects.filter(formation_type='payant')
             paiements=paiement.objects.select_related('formation_id', 'matricule')
+            stat_paiement=None
+            for i in paiements:
+                diff_paiement=i.formation_id.formation_prix-i.montant
+                print(diff_paiement)
+                if diff_paiement>=0:
+                    stat_paiement='Frais entièrements payés.'
+                else:
+                    stat_paiement=f"Reste à payer:{diff_paiement} Ariary"
+                i.stat_paiement=stat_paiement
             return render(request, 'administration/gestion_paiement.html',{'formations':data,'utilisateurs':users,'paiements':paiements})
     elif user_logged.user_type=='student':
         return redirect('dashboard')

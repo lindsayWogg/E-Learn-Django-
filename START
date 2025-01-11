@@ -1,9 +1,0 @@
-source NFA_PREPROD/preprod_env/bin/activate
-
-cd NFA_PREPROD/platform/E-Learn-Django-/nextfoodafrica
-
-python3 manage.py runserver 0.0.0.0:8000
-
-
-
-/media/lindsay/internal_use/NFA/GIT/PREPROD/nextfoodafrica/edureka/wsgi.py

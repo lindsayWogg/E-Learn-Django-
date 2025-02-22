@@ -310,40 +310,63 @@
                           <h4 class="mb">Information générale</h4>
                           <form role="form" class="form-horizontal" method="post" action="{%url "update_user_information" %}">
                             {% csrf_token %}
+                            <input  type="hidden" name="matricule" value="{{ item.matricule }}">
+
+                            <div class="form-group">
+                              <label class="col-lg-2 control-label">Nom d'utilisateur:</label>
+                              <div class="col-lg-6">
+                                <input type="text" value="{{ user_logged.username }}" name="username" id="addr1" class="form-control">
+                              </div>
+                            </div>
                             <div class="form-group">
                               <label class="col-lg-2 control-label">Nom:</label>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="Nouveau nom..." name="name" id="addr1" class="form-control">
+                                <input type="text" value="{{ user_logged.first_name }}" name="name" id="addr1" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-lg-2 control-label">Prénom(s):</label>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="Nouveau prénom" id="addr2" name="prenom" class="form-control">
+                                <input type="text" value="{{ user_logged.last_name }}" id="addr2" name="prenom" class="form-control">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-lg-2 control-label">Sexe:</label>
+                              <div class="col-lg-6">
+                                <select type="text" name="sex" class="form-control">
+                                <option value="H">Masculin</option>
+                                <option value="F">Féminin</option>
+                                </select>
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-lg-2 control-label">Adresse:</label>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="Nouvelle adresse" name="adress" id="phone" class="form-control">
+                                <input type="text" value="{{ user_logged.adress }}" name="adress" id="phone" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-lg-2 control-label">Téléphone:</label>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="Nouveau téléphone..." name="phone" id="cell" class="form-control">
+                                <input type="text"  value="{{ user_logged.phone }}" name="phone" id="cell" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-lg-2 control-label">Email:</label>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="Nouvelle adresse email..." name="email" id="email" class="form-control">
+                                <input type="text" value="{{ user_logged.email }}" name="email" id="email" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-lg-2 control-label">Skype</label>
                               <div class="col-lg-6">
-                                <input type="text" placeholder="Nouveau skype..." name="skype" id="skype" class="form-control">
+                                <input type="text" value="{{ user_logged.skype }}" name="skype" id="skype" class="form-control">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-lg-2 control-label">organisation</label>
+                              <div class="col-lg-6">
+                                <input type="text"  value="{{ user_logged.organisation }}" name="organisation" id="skype" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">

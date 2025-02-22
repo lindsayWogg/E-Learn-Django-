@@ -135,18 +135,10 @@ def update_user_information(request):
     phone=request.POST['phone']
     email=request.POST['email']
     skype=request.POST['skype']
-    if not nom:
-        nom=user_logged.first_name
-    if not prenom:
-        prenom=user_logged.last_name
-    if not adress:
-        adress=user_logged.adress
-    if not phone:
-        phone=user_logged.phone
-    if not email:
-        email=user_logged.email
-    if not skype:
-        skype=user_logged.skype
+    matricule=request.POST['matricule']
+    login=request.POST['username']
+    organization=request.POST['organisation']
+    sexe=request.POST['sex']
         
     print(f"""
           INFORMATIONS RECUPÉRÉ
@@ -158,10 +150,15 @@ def update_user_information(request):
           email:{email}
           skype:{skype}
           """)
-    utilisateur.objects.filter(matricule=user_logged.matricule).update(first_name=nom,last_name=prenom,adress=adress,phone=phone,email=email,skype=skype)
+    utilisateur.objects.filter(matricule=matricule).update(sex=sexe,username=login,organisation=organization,first_name=nom,last_name=prenom,adress=adress,phone=phone,email=email,skype=skype)
     User.objects.filter(id=user_logged.matricule).update(first_name=nom,last_name=prenom,email=email)
     messages.success(request,("Modification effectuée avec succès!!!."))
-    return redirect('view_profile')
+    
+    if user_logged.user_type=='student':
+        return redirect('view_profile')
+    elif user_logged.user_type=='admin':
+        return redirect('gestion_utilisateurs')
+
 
 
 
@@ -920,8 +917,8 @@ def administration(request):
 def gestion_utilisateur(request):
     user_logged=get_user_logged(request)
     if user_logged.user_type=='admin':
-        users=utilisateur.objects.all()
-        return render(request, 'administration/gestion_utilisateur.html',{'users':users})
+        users=utilisateur.objects.all().filter(user_type='student')
+        return render(request, 'administration/gestion_utilisateur_inst_srch.html',{'users':users})
     elif user_logged.user_type=='student':
         return redirect('dashboard')
 
